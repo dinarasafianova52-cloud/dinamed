@@ -1,0 +1,1513 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DinaMed</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Crect width='44' height='44' rx='12' fill='%23C8102E'/%3E%3Cpath d='M18 9h8v9h9v8h-9v9h-8v-9H9v-8h9z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600&family=Lora:ital,wght@0,500;0,600;1,500&display=swap">
+<!--
+  ГДЕ ЧТО МЕНЯТЬ
+  1. Все данные (услуги, врачи, лекарства, центры, партнёры) лежат в конце файла, в блоке со скриптом (в самом его начале).
+  2. Вместо нарисованных картинок можно поставить свои фото: у центров и слайдов есть поле photo: ''
+     (например, photo: 'img/astana.jpg').
+  3. Цифры и адреса в разделе «О компании» и «Центры» — примерные, замените на реальные.
+  4. Анкета и вход в кабинет работают как демонстрация: данные никуда не отправляются.
+-->
+<style>
+:root{
+  --red:#C8102E; --red-dark:#8F0A21; --red-deep:#4A0510;
+  --pink:#FDECEE; --pink2:#F8CDD3; --bg:#FBF4F4; --white:#FFFFFF;
+  --ink:#2A1517; --muted:#6B4F53; --line:#EBD5D8; --field:#B99A9F; --pale:#F7C6CD;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{margin:0;font-family:'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-text-size-adjust:100%}
+[hidden]{display:none!important}
+a{color:var(--red)}
+a:hover{color:var(--red-dark)}
+:focus-visible{outline:3px solid #1B1B1B;outline-offset:2px;box-shadow:0 0 0 5px #fff}
+h1,h2,h3,h4{margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:80px 0}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
+h2{font-size:36px;line-height:1.15;font-weight:700}
+.sec-head{display:flex;flex-direction:column;gap:12px;max-width:680px;margin-bottom:40px}
+.sec-head p{font-size:17px;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:10px;font-weight:600;font-size:16px;text-decoration:none;border:2px solid transparent;font-family:inherit;cursor:pointer}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:var(--red-dark);color:#fff}
+.btn-line{border-color:var(--red);color:var(--red);background:transparent}
+.btn-line:hover{background:var(--pink);color:var(--red-dark)}
+.btn-white{background:#fff;color:var(--red-dark)}
+.btn-white:hover{background:var(--pink);color:var(--red-dark)}
+
+/* Верхняя полоса и шапка */
+.topbar{background:var(--red-dark);color:#fff;font-size:14px}
+.topbar .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 24px;padding-top:8px;padding-bottom:8px}
+.topbar a{color:#fff;font-weight:600;text-decoration:none}
+header{background:#fff;border-bottom:1px solid var(--line)}
+.head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-top:14px;padding-bottom:14px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.logo b{display:block;font-size:24px;line-height:1.1;letter-spacing:-.01em}
+.logo b i{font-style:normal;color:var(--red)}
+.logo small{display:block;font-size:13px;color:var(--muted)}
+nav{display:flex;flex-wrap:wrap;align-items:center;gap:6px 22px;font-size:15px;font-weight:500}
+nav a{color:var(--ink);text-decoration:none}
+nav a:hover{color:var(--red)}
+nav button{min-height:44px;padding:0 20px;background:var(--red);color:#fff;border:0;border-radius:10px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer}
+nav button:hover{background:var(--red-dark)}
+
+/* Первый экран */
+.hero{background:var(--pink);padding:56px 0 64px;overflow:hidden}
+.hero .wrap{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}
+.hero-l{flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:24px}
+.hero-r{flex:1 1 360px;min-width:0;max-width:520px;margin:0 auto}
+.hero-r svg{width:100%;height:auto;display:block}
+.hero h1{font-size:46px;line-height:1.1;font-weight:700;letter-spacing:-.01em}
+.hero h1 span{color:var(--red)}
+.hero .lead{font-size:18px;color:var(--muted);max-width:560px}
+.stats2{display:flex;flex-wrap:wrap;gap:12px 40px}
+.stats2 div{display:flex;flex-direction:column}
+.stats2 b{font-size:34px;line-height:1.1;color:var(--red)}
+.stats2 span{font-size:14px;color:var(--muted);max-width:200px}
+
+/* Поиск */
+.search{background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(143,10,33,.14);display:flex;flex-direction:column;gap:14px}
+.seg{display:inline-flex;gap:4px;background:var(--pink);padding:4px;border-radius:12px;align-self:flex-start}
+.seg button{min-height:40px;padding:0 18px;border:0;border-radius:9px;background:transparent;font-family:inherit;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--red);color:#fff}
+.srow{display:flex;flex-wrap:wrap;gap:10px}
+.srow input{flex:1 1 220px;min-width:0;height:52px;padding:0 16px;border:1.5px solid var(--field);border-radius:10px;font-size:16px;font-family:inherit;color:var(--ink);background:#fff}
+.srow .btn{height:52px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+.chip{min-height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--line);background:#fff;font-family:inherit;font-size:14px;color:var(--ink);cursor:pointer}
+.chip:hover{border-color:var(--red);color:var(--red)}
+.results{display:flex;flex-direction:column;gap:10px;max-height:420px;overflow:auto}
+.res-count{font-size:14px;color:var(--muted)}
+.res{display:flex;gap:14px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.res .ava{flex:none;width:44px;height:44px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600}
+.res .ava.med{background:var(--pink);color:var(--red)}
+.res .tx{min-width:0;display:flex;flex-direction:column;gap:1px}
+.res .tx b{font-size:16px}
+.res .tx span{font-size:14px;color:var(--muted)}
+.res .ph{margin-left:auto;font-size:14px;font-weight:600;white-space:nowrap}
+.note{font-size:13px;color:var(--muted)}
+
+/* Услуги */
+.services{background:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.svc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.svc:hover{border-color:var(--red);box-shadow:0 8px 22px rgba(200,16,46,.10)}
+.svc-ico{width:64px;height:64px;border-radius:50%;background:var(--pink);color:var(--red);display:flex;align-items:center;justify-content:center}
+.svc h3{font-size:19px;font-weight:600}
+.svc p{font-size:15px;color:var(--muted)}
+.more-link{margin-top:auto;padding:6px 0 0;border:0;background:none;color:var(--red);font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;min-height:36px}
+.more-link:hover{color:var(--red-dark);text-decoration:underline}
+.more-wrap{display:flex;justify-content:center;margin-top:28px}
+.more-wrap .btn{min-width:180px}
+.more-wrap .btn svg{transition:transform .2s}
+.more-wrap .btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+
+/* Детям */
+.kids{background:var(--pink)}
+.kids .svc{background:#fff;border-color:transparent;border-radius:24px}
+.kids .svc-ico{background:var(--pink2);color:var(--red-dark)}
+.kids-other{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.kids-other strong{font-size:15px;margin-right:6px}
+.tag{padding:8px 16px;border-radius:20px;background:#fff;font-size:14px;font-weight:500;color:var(--red-dark)}
+
+/* О компании */
+.about{background:#fff}
+.about-top{display:flex;flex-wrap:wrap;gap:40px;margin-bottom:40px}
+.about-top > div{flex:1 1 420px;min-width:0}
+.about-top p{font-size:17px;color:var(--muted);max-width:65ch}
+.about-top p + p{margin-top:14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:40px}
+.tile{border-top:4px solid var(--red);background:var(--bg);border-radius:0 0 12px 12px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.tile b{font-size:34px;line-height:1.1;color:var(--red);font-variant-numeric:tabular-nums}
+.tile span{font-size:14px;color:var(--muted)}
+.acc{display:flex;flex-direction:column;gap:10px;max-width:900px}
+details{border:1px solid var(--line);border-radius:14px;background:#fff}
+summary{list-style:none;cursor:pointer;padding:18px 22px;font-size:18px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:44px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:none;width:10px;height:10px;border-right:2.5px solid var(--red);border-bottom:2.5px solid var(--red);transform:rotate(45deg);transition:transform .2s;margin-top:-4px}
+details[open] summary::after{transform:rotate(-135deg);margin-top:4px}
+details[open]{border-color:var(--red)}
+.acc-body{padding:0 22px 22px;display:flex;flex-direction:column;gap:12px;font-size:16px;color:var(--muted);max-width:75ch}
+.acc-body ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+.acc-body strong{color:var(--ink)}
+.docs{display:flex;flex-wrap:wrap;gap:12px}
+.doc{flex:1 1 220px;border:1px dashed var(--field);border-radius:12px;padding:14px 16px;background:var(--bg);display:flex;flex-direction:column;gap:2px;font-size:14px}
+.doc b{font-size:15px;color:var(--ink)}
+
+/* Направления и центры */
+.activity{background:var(--bg)}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:56px}
+.act{background:#fff;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line)}
+.act b{font-size:44px;line-height:1;color:var(--red)}
+.act h3{font-size:20px;font-weight:600}
+.act p{font-size:15px;color:var(--muted)}
+.sub{font-size:26px;font-weight:700;margin-bottom:24px}
+.centers{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.center{background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column}
+.center .pic{aspect-ratio:400/260;background:var(--pink)}
+.center .pic svg,.center .pic img{width:100%;height:100%;display:block;object-fit:cover}
+.center .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px}
+.pill{align-self:flex-start;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--red-dark);background:var(--pink);padding:4px 10px;border-radius:12px}
+.center h4{font-size:20px;font-weight:600}
+.center .addr{font-size:15px;color:var(--ink)}
+.center .hrs{font-size:14px;color:var(--muted)}
+
+/* Ассистанс */
+.assist{background:var(--red-dark);color:#fff}
+.assist .eyebrow{color:var(--pale)}
+.assist .sec-head p{color:var(--pale)}
+.a-grid{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}
+.a-l{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:28px}
+.a-r{flex:1 1 460px;min-width:0}
+.a-l h3{font-size:22px;font-weight:600;margin-bottom:12px}
+.checks{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.checks li{display:flex;gap:12px;align-items:flex-start;font-size:16px}
+.checks svg{flex:none;margin-top:3px}
+.carousel{position:relative}
+.track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;padding-bottom:8px}
+.slide{flex:0 0 100%;scroll-snap-align:start;margin:0;background:#fff;color:var(--ink);border-radius:16px;overflow:hidden}
+.slide .pic{aspect-ratio:640/400;background:var(--pink)}
+.slide .pic svg,.slide .pic img{width:100%;height:100%;display:block;object-fit:cover}
+.slide figcaption{padding:14px 18px;font-size:15px}
+.slide figcaption b{display:block;font-size:17px}
+.car-ctl{display:flex;align-items:center;gap:12px;margin-top:12px}
+.car-ctl button{width:48px;height:48px;border-radius:50%;border:2px solid #fff;background:transparent;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.car-ctl button:hover{background:#fff;color:var(--red-dark)}
+.car-ctl span{font-size:14px;color:var(--pale);font-variant-numeric:tabular-nums}
+.calc{margin-top:56px;background:#fff;color:var(--ink);border-radius:20px;padding:32px;display:flex;flex-wrap:wrap;gap:32px}
+.calc-l{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.calc-l h3{font-size:28px;line-height:1.15;font-weight:700}
+.calc-l p{color:var(--muted)}
+.calc form{flex:2 1 420px;min-width:0;display:flex;flex-direction:column;gap:16px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:14px;font-weight:600}
+.field input{height:48px;padding:0 14px;border:1.5px solid var(--field);border-radius:10px;font-size:16px;font-family:inherit;color:var(--ink);background:#fff;width:100%}
+.ok{padding:14px 16px;border-radius:12px;background:var(--pink);color:var(--red-dark);font-weight:500}
+
+/* Партнёры */
+.partners{background:#fff}
+.p-groups{display:flex;flex-wrap:wrap;gap:32px}
+.p-group{flex:1 1 360px;min-width:0}
+.p-group h3{font-size:20px;font-weight:600;margin-bottom:16px}
+.p-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.pcard{height:84px;border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--red-dark);background:var(--bg);text-align:center;padding:0 12px}
+
+/* Контакты */
+.contacts{background:var(--pink);padding:64px 0}
+.contacts .wrap{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between}
+.c-l{flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.c-l p{color:var(--muted);max-width:46ch;font-size:17px}
+.contacts dl{flex:1 1 320px;min-width:0;margin:0;display:flex;flex-direction:column;gap:18px}
+.contacts dt{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
+.contacts dd{margin:2px 0 0;font-size:20px;font-weight:600}
+.contacts dd a{color:var(--ink);text-decoration:none}
+.contacts dd a:hover{color:var(--red)}
+
+footer{background:var(--red-deep);color:#E9B9C0}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;padding-top:22px;padding-bottom:22px;font-size:14px}
+
+/* Окно входа */
+dialog{border:0;border-radius:20px;padding:32px;width:calc(100% - 32px);max-width:420px;color:var(--ink)}
+dialog::backdrop{background:rgba(42,21,23,.6)}
+.dlg-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:18px}
+.dlg-head h2{font-size:24px}
+.dlg-x{flex:none;width:44px;height:44px;border:0;background:var(--pink);border-radius:50%;cursor:pointer;color:var(--red-dark);display:flex;align-items:center;justify-content:center}
+.stack{display:flex;flex-direction:column;gap:16px}
+.err{font-size:14px;color:#A8101E}
+.next{background:var(--pink);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:2px;font-size:14px}
+.next strong{font-size:16px}
+.linkbtn{min-height:44px;border:0;background:none;color:var(--red);font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;text-align:left;padding:0}
+
+@media (min-width:700px){.slide{flex-basis:88%}}
+@media (max-width:700px){
+  section{padding:56px 0}
+  .hero{padding:36px 0 48px}
+  .hero h1{font-size:32px}
+  h2{font-size:28px}
+  .calc{padding:22px}
+  .res{flex-wrap:wrap}
+  .res .ph{margin-left:58px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+/* ===== Обновление стиля: другой почерк ===== */
+h1,h2,.sub,.tile b,.act b,.stats2 b{font-family:'Unbounded','Onest',system-ui,sans-serif;letter-spacing:-.02em}
+h2{font-size:30px;line-height:1.2;font-weight:600}
+.hero h1{font-size:38px;line-height:1.18;font-weight:600}
+.sub{font-size:22px;font-weight:600}
+.stats2 b{font-size:30px;font-weight:600}
+.btn,nav button{border-radius:999px}
+.seg,.seg button{border-radius:999px}
+.srow input{border-radius:999px;padding:0 22px}
+.sec-head h2::after{content:"";display:block;width:120px;height:18px;margin-top:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='18' viewBox='0 0 120 18'%3E%3Cpath d='M0 9h34l6-8 8 16 7-12 5 4h60' fill='none' stroke='%23C8102E' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat}
+.assist .sec-head h2::after{filter:brightness(0) invert(1)}
+
+/* Услуги: цветные плитки вместо кружков */
+.svc{border-radius:20px}
+.svc-ico{width:68px;height:68px;border-radius:20px;background:linear-gradient(145deg,#E0324F,#A30D25);color:#fff;box-shadow:0 10px 20px rgba(200,16,46,.28)}
+.kids .svc-ico{background:linear-gradient(145deg,#FFB3BE,#F0788A);border-radius:50% 50% 50% 20px;box-shadow:0 10px 20px rgba(240,120,138,.35)}
+
+/* Детям: рисунок рядом с заголовком */
+.kids-head{display:flex;flex-wrap:wrap;gap:32px;align-items:center;margin-bottom:40px}
+.kids-head .sec-head{flex:1 1 420px;margin-bottom:0}
+.kids-art{flex:0 1 300px;max-width:320px;margin:0 auto}
+.kids-art svg{width:100%;height:auto;display:block}
+
+/* Галерея */
+.gallery{background:var(--bg)}
+.gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.gal figure{margin:0;position:relative;border-radius:22px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 10px 26px rgba(42,21,23,.12)}
+.gal svg{width:100%;height:100%;display:block}
+.gal figcaption{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.94);padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--red-dark)}
+
+/* О компании и направления: плотные цветные блоки */
+.tile{background:linear-gradient(160deg,#B80E2B,#7C0819);border-top:0;border-radius:18px;padding:20px}
+.tile b{color:#fff;font-size:28px;font-weight:600}
+.tile span{color:#F7C6CD}
+.act{border:0;box-shadow:0 10px 26px rgba(143,10,33,.10);border-radius:22px;position:relative;overflow:hidden}
+.act::after{content:"";position:absolute;right:-14px;top:-14px;width:96px;height:96px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M18 4h12v14h14v12H30v14H18V30H4V18h14z' fill='%23FDECEE'/%3E%3C/svg%3E") no-repeat;pointer-events:none}
+.act b{font-size:36px;font-weight:600}
+.act > *{position:relative;z-index:1}
+.center{border:0;border-radius:22px;box-shadow:0 12px 30px rgba(42,21,23,.10)}
+.pill{border-radius:999px}
+
+/* Партнёры */
+.pcard{flex-direction:column;gap:8px;height:auto;min-height:128px;padding:18px 12px;border-radius:18px;font-size:18px}
+.pcard b{font-size:20px}
+.pcard small{font-size:12px;font-weight:500;color:var(--muted);letter-spacing:.02em}
+.pcard .pico{width:44px;height:44px;border-radius:12px;background:var(--pink);color:var(--red);display:flex;align-items:center;justify-content:center}
+.pcard img{max-width:82%;max-height:46px;object-fit:contain;display:block}
+
+@media (max-width:700px){
+  h2{font-size:24px}
+  .hero h1{font-size:28px}
+}
+
+/* ===== Меню, страницы, второй шрифт, фото ===== */
+.hero .lead,.sec-head p{font-family:'Lora',Georgia,serif;font-style:italic;font-weight:500;line-height:1.6}
+main:focus{outline:none}
+.burger{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 18px;border:2px solid var(--red);border-radius:999px;background:#fff;color:var(--red-dark);font-family:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.burger:hover{background:var(--pink)}
+.bars{position:relative;display:block;width:18px;height:2px;background:currentColor;border-radius:2px}
+.bars::before,.bars::after{content:"";position:absolute;left:0;width:18px;height:2px;background:currentColor;border-radius:2px}
+.bars::before{top:-6px}
+.bars::after{top:6px}
+nav a[aria-current="page"]{color:var(--red);font-weight:600}
+.crumbs{background:#fff;border-bottom:1px solid var(--line);font-size:14px}
+.crumbs .wrap{display:flex;gap:10px;align-items:center;min-height:48px;color:var(--muted)}
+.crumbs a{text-decoration:none;font-weight:600}
+.crumbs b{color:var(--ink)}
+body.lock{overflow:hidden}
+.drawer{position:fixed;inset:0;z-index:50;display:flex;justify-content:flex-end}
+.drawer-bg{position:absolute;inset:0;background:rgba(42,21,23,.55)}
+.drawer-panel{position:relative;width:min(420px,100%);height:100%;background:#fff;display:flex;flex-direction:column;box-shadow:-12px 0 40px rgba(42,21,23,.25);animation:slideIn .22s ease-out}
+@keyframes slideIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--line)}
+.drawer-head b{font-family:'Unbounded','Onest',system-ui,sans-serif;font-size:18px;font-weight:600}
+.drawer-list{flex:1;overflow:auto;padding:8px 12px;display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;justify-content:flex-start;gap:2px;font-size:inherit;font-weight:400}
+.dl-item{display:flex;align-items:center;gap:14px;padding:12px 10px;border-radius:16px;text-decoration:none;color:var(--ink)}
+.dl-item:hover{background:var(--pink)}
+.dl-item[aria-current="page"]{background:var(--pink);box-shadow:inset 3px 0 0 var(--red)}
+.drawer-foot{padding:16px 20px;border-top:1px solid var(--line);font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.drawer-foot a{font-weight:600;font-size:16px;text-decoration:none}
+.pt-ico{flex:none;width:52px;height:52px;border-radius:16px;background:linear-gradient(145deg,#E0324F,#A30D25);color:#fff;display:flex;align-items:center;justify-content:center}
+.pt-tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pt-tx b{font-size:17px;font-weight:600}
+.pt-tx small{font-family:'Lora',Georgia,serif;font-size:14px;font-weight:400;color:var(--muted);line-height:1.4}
+.home-tiles{background:#fff}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.ptile{display:flex;align-items:center;gap:16px;padding:18px 20px;background:var(--bg);border:1px solid var(--line);border-radius:20px;text-decoration:none;color:var(--ink)}
+.ptile:hover{border-color:var(--red);box-shadow:0 8px 22px rgba(200,16,46,.12)}
+.pt-arr{margin-left:auto;color:var(--red);font-size:22px;font-weight:600}
+.gal .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.gal figcaption{z-index:2}
+.gal .src{position:absolute;right:12px;bottom:14px;z-index:2;font-size:12px;font-weight:600;background:rgba(255,255,255,.94);padding:6px 12px;border-radius:999px;color:var(--red-dark);text-decoration:none}
+.gal-note{margin-top:16px;max-width:75ch}
+@media (max-width:900px){nav a.nl{display:none}}
+@media (prefers-reduced-motion:reduce){.drawer-panel{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span>г. Астана, пр. Мангилик Ел, 21</span>
+    <span>Единый номер: <a href="tel:+77760404764">+7 776 040-47-64</a></span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap head">
+    <a class="logo" href="#top">
+      <svg width="48" height="48" viewBox="0 0 44 44" role="img" aria-label="Логотип DinaMed: медицинский крест с кардиограммой">
+        <rect width="44" height="44" rx="12" fill="#C8102E"/>
+        <path d="M18 9h8v9h9v8h-9v9h-8v-9H9v-8h9z" fill="#fff"/>
+        <path d="M10 22h8l3-6 4 12 3-6h6" fill="none" stroke="#C8102E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span><b>Dina<i>Med</i></b><small>Сеть медицинских центров</small></span>
+    </a>
+    <nav aria-label="Основная навигация">
+      <a class="nl" href="#services">Услуги</a>
+      <a class="nl" href="#kids">Детям</a>
+      <a class="nl" href="#about">О компании</a>
+      <a class="nl" href="#contacts">Контакты</a>
+      <button type="button" id="openLogin">Личный кабинет</button>
+      <button type="button" class="burger" id="menuBtn" aria-expanded="false" aria-controls="drawer"><span class="bars" aria-hidden="true"></span><span>Меню</span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="crumbs" id="crumbs" hidden><div class="wrap"><a href="#home">Главная</a><span aria-hidden="true">/</span><b id="crumbCur"></b></div></div>
+
+<!-- Первый экран с поиском -->
+<section class="hero" id="top" data-view="home">
+  <div class="wrap">
+    <div class="hero-l">
+      <span class="eyebrow">Сеть медицинских центров</span>
+      <h1>Найдите врача или лекарство <span>за минуту</span></h1>
+      <p class="lead">Запишитесь на приём, найдите нужного специалиста в своём городе и узнайте о препарате. Всё в одном поиске.</p>
+
+      <div class="search" id="search">
+        <div class="seg" role="group" aria-label="Что искать">
+          <button type="button" data-mode="doc" aria-pressed="true">Врачи</button>
+          <button type="button" data-mode="med" aria-pressed="false">Лекарства</button>
+        </div>
+        <form class="srow" id="searchForm" role="search">
+          <label for="q" class="sr" style="position:absolute;left:-9999px">Поисковый запрос</label>
+          <input id="q" type="search" autocomplete="off" placeholder="Например: кардиолог, Астана или фамилия">
+          <button class="btn btn-red" type="submit">Найти</button>
+        </form>
+        <div class="chips" id="chips"></div>
+        <div class="results" id="results" aria-live="polite"></div>
+      </div>
+
+      <div class="stats2">
+        <div><b>25 000+</b><span>медицинских услуг</span></div>
+        <div><b>1000+</b><span>медицинских центров, включая партнёрские</span></div>
+      </div>
+    </div>
+    <div class="hero-r" id="heroPic"></div>
+  </div>
+</section>
+
+<!-- Услуги -->
+<section class="services" id="services" data-view="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Услуги</span>
+      <h2>Более 25 000 услуг в 1000+ медицинских центрах</h2>
+      <p>Выберите направление и найдите врача. Если нужной специальности нет в списке, нажмите «Еще».</p>
+    </div>
+    <div class="grid" id="svcGrid"></div>
+    <div class="more-wrap">
+      <button type="button" class="btn btn-line" id="moreBtn" aria-expanded="false" aria-controls="svcGrid">
+        <span id="moreTxt">Еще</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6l5 5 5-5"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Детям -->
+<section class="kids" id="kids" data-view="kids">
+  <div class="wrap">
+    <div class="kids-head">
+      <div class="sec-head">
+        <span class="eyebrow">Детям</span>
+        <h2>Забота о здоровье детей</h2>
+        <p>Детские врачи принимают с рождения до 18 лет. Приём проходит в спокойной обстановке, с вниманием к каждому ребёнку.</p>
+      </div>
+      <div class="kids-art" id="kidsArt"></div>
+    </div>
+    <div class="grid" id="kidGrid"></div>
+    <div class="kids-other" id="kidOther"></div>
+  </div>
+</section>
+
+<!-- Разделы сайта -->
+<section class="home-tiles" id="homeSections" data-view="home">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Разделы сайта</span>
+      <h2>Всё о DinaMed в одном месте</h2>
+      <p>Откройте нужный раздел или нажмите «Меню» вверху страницы.</p>
+    </div>
+    <div class="pgrid" id="homeTiles"></div>
+  </div>
+</section>
+
+<!-- Галерея -->
+<section class="gallery" id="gallery" data-view="home">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Медицина в деталях</span>
+      <h2>Медицина в фотографиях</h2>
+      <p>От анализов и рентгена до вакцинации: всё необходимое для здоровья в одной сети.</p>
+    </div>
+    <div class="gal" id="gal"></div>
+    <p class="note gal-note">Фотографии подгружаются с Wikimedia Commons и служат примерами. Если снимок не загрузился, показывается рисунок. Перед публикацией сайта проверьте лицензию каждого файла по ссылке «Источник» или замените снимки на свои.</p>
+  </div>
+</section>
+
+<!-- О компании -->
+<section class="about" id="about" data-view="about">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:28px">
+      <span class="eyebrow">О компании</span>
+      <h2>DinaMed — сеть медицинских центров, созданная в 2009 году</h2>
+    </div>
+    <div class="about-top">
+      <div>
+        <p>Мы начинали с одного медицинского центра, а сегодня DinaMed объединяет многопрофильные больницы, медицинские центры и медицинские пункты на предприятиях. Пациент получает помощь рядом с домом и работой, а вся история лечения хранится в единой электронной карте.</p>
+        <p>Мы обслуживаем частных пациентов, застрахованных клиентов и сотрудников промышленных компаний, помогаем организовать профилактику и лечение в одном месте.</p>
+      </div>
+      <div>
+        <p>Наша цель — сделать качественную медицину понятной и доступной в любом городе, где мы работаем. Каждый врач сети следует единым стандартам лечения и отвечает за результат перед пациентом.</p>
+      </div>
+    </div>
+
+    <div class="tiles" id="tiles"></div>
+
+    <div class="acc">
+      <details open>
+        <summary>Миссия и цели</summary>
+        <div class="acc-body">
+          <p><strong>Миссия.</strong> Сохранять здоровье людей и возвращать им уверенность в завтрашнем дне через доступную и качественную медицинскую помощь.</p>
+          <ul>
+            <li>Обеспечить каждому пациенту быстрый доступ к врачу и диагностике.</li>
+            <li>Развивать профилактику, чтобы болезни выявлялись на ранней стадии.</li>
+            <li>Строить долгосрочные отношения с пациентами и партнёрами.</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Принципы и ценности</summary>
+        <div class="acc-body">
+          <ul>
+            <li><strong>Пациент в центре.</strong> Решения принимаются в интересах пациента.</li>
+            <li><strong>Профессионализм.</strong> Врачи постоянно учатся, лечение строится на проверенных методах.</li>
+            <li><strong>Забота.</strong> Мы объясняем диагноз и план лечения понятным языком.</li>
+            <li><strong>Ответственность.</strong> Мы отвечаем за качество услуг и за слова, которые даём пациентам.</li>
+            <li><strong>Развитие.</strong> Мы внедряем новое оборудование и цифровые сервисы.</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Законность и транспарентность</summary>
+        <div class="acc-body">
+          <ul>
+            <li>Вся деятельность ведётся на основании лицензий и в соответствии с законодательством.</li>
+            <li>Цены на услуги открыты и доступны до записи на приём.</li>
+            <li>Данные пациентов защищены, доступ к ним имеют только лечащие врачи.</li>
+            <li>Работает канал для обращений и жалоб, каждое обращение рассматривается и получает ответ.</li>
+            <li>Финансовая и медицинская отчётность проходит регулярную проверку.</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Социально-экономическая ответственность</summary>
+        <div class="acc-body">
+          <ul>
+            <li>Создаём рабочие места для врачей и медицинского персонала в регионах.</li>
+            <li>Проводим профилактические осмотры и скрининги для работников предприятий.</li>
+            <li>Обучаем молодых специалистов и поддерживаем программы повышения квалификации.</li>
+            <li>Участвуем в социальных проектах и благотворительных акциях для детей и пожилых людей.</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Стратегия развития</summary>
+        <div class="acc-body">
+          <ul>
+            <li><strong>Доступность.</strong> Расширять сеть центров и медицинских пунктов в городах и на промышленных площадках.</li>
+            <li><strong>Цифровизация.</strong> Развивать электронную карту, онлайн-запись и телемедицину.</li>
+            <li><strong>Качество.</strong> Внедрять единые стандарты лечения и регулярную оценку работы врачей.</li>
+            <li><strong>Корпоративная медицина.</strong> Развивать программы медицинского ассистанса для компаний.</li>
+            <li><strong>Кадры.</strong> Привлекать и обучать врачей, создавать условия для профессионального роста.</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Лицензии и сертификаты</summary>
+        <div class="acc-body">
+          <p>Здесь будут реквизиты ваших документов. Сейчас вместо номеров стоят пометки в скобках.</p>
+          <div class="docs">
+            <div class="doc"><b>Лицензия на медицинскую деятельность</b><span>№ [номер], выдана [дата]</span></div>
+            <div class="doc"><b>Лицензия на фармацевтическую деятельность</b><span>№ [номер], выдана [дата]</span></div>
+            <div class="doc"><b>Аккредитация медицинской организации</b><span>№ [номер], действует до [дата]</span></div>
+            <div class="doc"><b>Сертификат системы менеджмента качества</b><span>№ [номер], действует до [дата]</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- Направления деятельности и центры -->
+<section class="activity" id="activity" data-view="activity">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Направления деятельности</span>
+      <h2>Три формата помощи в одной сети</h2>
+    </div>
+    <div class="three">
+      <article class="act"><b>10</b><h3>Многопрофильные больницы</h3><p>Стационар, операции, реанимация и круглосуточная помощь.</p></article>
+      <article class="act"><b>15</b><h3>Медицинские центры</h3><p>Консультации врачей, диагностика, анализы и профилактические осмотры.</p></article>
+      <article class="act"><b>700</b><h3>Медицинские пункты</h3><p>Помощь прямо на предприятиях: осмотры смен, первая помощь, вакцинация.</p></article>
+    </div>
+    <h3 class="sub">Наши медицинские центры</h3>
+    <div class="centers" id="centers"></div>
+  </div>
+</section>
+
+<!-- Медицинский ассистанс -->
+<section class="assist" id="assist" data-view="assist">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Для компаний</span>
+      <h2>Медицинский ассистанс</h2>
+      <p>Комплексная медицинская поддержка сотрудников вашей компании: от профилактики до экстренной помощи, с одним договором и одним контактным центром.</p>
+    </div>
+    <div class="a-grid">
+      <div class="a-l">
+        <div>
+          <h3>Преимущества</h3>
+          <ul class="checks" id="advList"></ul>
+        </div>
+        <div>
+          <h3>Что входит в услугу</h3>
+          <ul class="checks" id="assistList"></ul>
+        </div>
+      </div>
+      <div class="a-r">
+        <div class="carousel" role="region" aria-roledescription="карусель" aria-label="Фотографии медицинского ассистанса">
+          <div class="track" id="track" tabindex="0"></div>
+          <div class="car-ctl">
+            <button type="button" id="prev" aria-label="Предыдущее фото"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l-6 6 6 6"/></svg></button>
+            <button type="button" id="next" aria-label="Следующее фото"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4l6 6-6 6"/></svg></button>
+            <span id="counter" aria-live="off"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="calc" id="calc">
+      <div class="calc-l">
+        <h3>Рассчитать индивидуальную программу</h3>
+        <p>Заполните анкету, и мы подготовим предложение под вашу компанию: набор услуг, стоимость и условия подключения.</p>
+      </div>
+      <form id="calcForm">
+        <div class="fields">
+          <div class="field"><label for="f-name">ФИО</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="f-region">Регион</label><input id="f-region" name="region" type="text" list="regions" required><datalist id="regions"><option value="Астана"><option value="Алматы"><option value="Шымкент"><option value="Караганда"><option value="Актобе"><option value="Атырау"><option value="Павлодар"><option value="Костанай"></datalist></div>
+          <div class="field"><label for="f-company">Компания</label><input id="f-company" name="company" type="text" autocomplete="organization" required></div>
+          <div class="field"><label for="f-count">Количество сотрудников</label><input id="f-count" name="count" type="number" min="1" inputmode="numeric" required></div>
+          <div class="field"><label for="f-email">E-mail</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="f-phone">Ваш телефон</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="+7" minlength="10" required></div>
+        </div>
+        <div><button class="btn btn-red" type="submit">Отправить заявку</button></div>
+        <p class="ok" id="calcOk" role="status" hidden>Спасибо! Заявка принята, мы свяжемся с вами. Это демонстрационная версия: данные никуда не отправляются.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Партнёры -->
+<section class="partners" id="partners" data-view="partners">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Партнёры</span>
+      <h2>С нами сотрудничают</h2>
+      <p>Мы работаем с банками и медицинскими организациями, чтобы услуги были удобнее для пациентов и компаний.</p>
+    </div>
+    <div class="p-groups">
+      <div class="p-group"><h3>Финансовые партнёры</h3><div class="p-list" id="pFin"></div></div>
+      <div class="p-group"><h3>Медицинские организации и сервисы</h3><div class="p-list" id="pMed"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Контакты -->
+<section class="contacts" id="contacts" data-view="contacts">
+  <div class="wrap">
+    <div class="c-l">
+      <span class="eyebrow">Контакты</span>
+      <h2>Свяжитесь с нами</h2>
+      <p>Позвоните, и мы поможем записаться к нужному врачу или подобрать программу для вашей компании.</p>
+    </div>
+    <dl>
+      <div><dt>Адрес</dt><dd>г. Астана, пр. Мангилик Ел, 21</dd></div>
+      <div><dt>Телефон</dt><dd><a href="tel:+77760404764">+7 776 040-47-64</a></dd></div>
+    </dl>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 DinaMed. Сеть медицинских центров.</span>
+    <span>Имеются противопоказания. Необходима консультация специалиста.</span>
+  </div>
+</footer>
+
+<!-- Меню разделов -->
+<div class="drawer" id="drawer" hidden>
+  <div class="drawer-bg" data-dclose></div>
+  <aside class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+    <div class="drawer-head">
+      <b id="drawerTitle">Разделы сайта</b>
+      <button type="button" class="dlg-x" id="drawerClose" aria-label="Закрыть меню"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M3 3l12 12M15 3L3 15"/></svg></button>
+    </div>
+    <nav class="drawer-list" id="drawerList" aria-label="Разделы сайта"></nav>
+    <div class="drawer-foot"><span>г. Астана, пр. Мангилик Ел, 21</span><a href="tel:+77760404764">+7 776 040-47-64</a></div>
+  </aside>
+</div>
+
+<!-- Личный кабинет -->
+<dialog id="dlg" aria-labelledby="dlgTitle">
+  <div id="loginView">
+    <div class="dlg-head">
+      <h2 id="dlgTitle">Вход в личный кабинет</h2>
+      <button type="button" class="dlg-x" data-close aria-label="Закрыть"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M3 3l12 12M15 3L3 15"/></svg></button>
+    </div>
+    <form class="stack" id="loginForm" novalidate>
+      <div class="field"><label for="l-email">Электронная почта</label><input id="l-email" type="email" autocomplete="email" placeholder="name@example.com"></div>
+      <div class="field"><label for="l-pass">Пароль</label><input id="l-pass" type="password" autocomplete="current-password" placeholder="Не менее 6 символов"></div>
+      <p class="err" id="lErr" role="alert" hidden></p>
+      <button class="btn btn-red" type="submit">Войти</button>
+    </form>
+  </div>
+  <div id="accView" class="stack" hidden>
+    <div class="dlg-head">
+      <h2>Здравствуйте, <span id="uName"></span></h2>
+      <button type="button" class="dlg-x" data-close aria-label="Закрыть"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M3 3l12 12M15 3L3 15"/></svg></button>
+    </div>
+    <div class="next"><span>Ближайший приём (пример)</span><strong>Кардиолог · 24 ноября, 10:30</strong><span>Астана, пр. Мангилик Ел, 21</span></div>
+    <a class="btn btn-line" href="#top" data-close>Записаться к врачу</a>
+    <button type="button" class="linkbtn" id="logoutBtn">Выйти из кабинета</button>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  'use strict';
+
+  // =====================================================
+  //  ДАННЫЕ (меняйте здесь)
+  // =====================================================
+
+  // Основные услуги. n — название, d — описание, i — значок, q — запрос в поиск врачей
+  var services = [
+    { n: 'УЗИ', d: 'Ультразвуковая диагностика органов, сосудов и щитовидной железы.', i: 'us', q: 'УЗИ' },
+    { n: 'Эндокринология', d: 'Щитовидная железа, сахарный диабет, гормональный фон.', i: 'endo', q: 'Эндокринолог' },
+    { n: 'Функциональная диагностика', d: 'ЭКГ, суточное мониторирование, спирометрия.', i: 'func', q: 'функциональной' },
+    { n: 'ФГДС', d: 'Осмотр пищевода, желудка и двенадцатиперстной кишки.', i: 'fgds', q: 'Эндоскопист' },
+    { n: 'Кардиология', d: 'Давление, ритм сердца, здоровье сосудов.', i: 'cardio', q: 'Кардиолог' },
+    { n: 'Гастроэнтерология', d: 'Желудок, кишечник, печень, поджелудочная железа.', i: 'gastro', q: 'Гастроэнтеролог' },
+    { n: 'Флеболог', d: 'Варикоз, тромбозы и другие заболевания вен.', i: 'phleb', q: 'Флеболог' },
+    { n: 'Дерматолог', d: 'Кожа, волосы, ногти, родинки.', i: 'derm', q: 'Дерматолог' },
+    { n: 'Невролог', d: 'Головные боли, боли в спине, нарушения сна.', i: 'neuro', q: 'Невролог' }
+  ];
+  // Услуги, которые открываются по кнопке «Еще»
+  var moreServices = [
+    { n: 'Терапевт', d: 'Первичный приём, наблюдение и направление к узким специалистам.', i: 'ther', q: 'Терапевт' },
+    { n: 'Урология', d: 'Почки, мочевой пузырь, мужское здоровье.', i: 'uro', q: 'Уролог' },
+    { n: 'Гинекология', d: 'Женское здоровье, планирование и ведение беременности.', i: 'gyn', q: 'Гинеколог' },
+    { n: 'Оториноларингология', d: 'Ухо, горло, нос.', i: 'ent', q: 'ЛОР' },
+    { n: 'Офтальмология', d: 'Зрение, глазное дно, подбор очков.', i: 'eye', q: 'Офтальмолог' },
+    { n: 'Травматология и ортопедия', d: 'Суставы, кости, спортивные травмы.', i: 'bone', q: 'Травматолог' },
+    { n: 'Пульмонология', d: 'Лёгкие и бронхи, кашель, одышка.', i: 'lung', q: 'Пульмонолог' },
+    { n: 'Онкология', d: 'Консультации и скрининговые обследования.', i: 'onco', q: 'Онколог' },
+    { n: 'Стоматология', d: 'Лечение, гигиена, протезирование.', i: 'tooth', q: 'Стоматолог' },
+    { n: 'Лабораторная диагностика', d: 'Анализы крови, мочи, гормонов и инфекций.', i: 'lab', q: '' },
+    { n: 'МРТ и КТ', d: 'Томография органов, сосудов и суставов.', i: 'mri', q: '' }
+  ];
+  // Услуги для детей
+  var kids = [
+    { n: 'Педиатр', d: 'Наблюдение за ростом и развитием, лечение простуд.', i: 'peds', q: 'Педиатр' },
+    { n: 'Офтальмолог', d: 'Проверка зрения, подбор очков и линз.', i: 'eye', q: 'Офтальмолог' },
+    { n: 'Дерматолог', d: 'Аллергии, высыпания, атопический дерматит.', i: 'derm', q: 'Дерматолог' },
+    { n: 'Детский невролог', d: 'Развитие речи и моторики, головные боли, сон.', i: 'neuro', q: 'Невролог' },
+    { n: 'ЛОР', d: 'Аденоиды, отиты, частые простуды.', i: 'ent', q: 'ЛОР' },
+    { n: 'Детский стоматолог', d: 'Лечение молочных зубов и профилактика.', i: 'tooth', q: 'Стоматолог' },
+    { n: 'Вакцинация', d: 'Плановые и сезонные прививки по календарю.', i: 'vac', q: '' },
+    { n: 'Логопед', d: 'Постановка звуков, развитие речи.', i: 'speech', q: '' }
+  ];
+  var kidsOther = ['Детский кардиолог', 'Детский эндокринолог', 'Ортопед', 'УЗИ для детей', 'Анализы для детей', 'Массаж и ЛФК', 'Психолог'];
+
+  // Цифры в разделе «О компании» (замените на реальные)
+  var tiles = [
+    ['2009', 'год создания компании'],
+    ['10', 'многопрофильных больниц'],
+    ['15', 'медицинских центров'],
+    ['700', 'медицинских пунктов'],
+    ['3 млн', 'посещений в год'],
+    ['1,5 млн', 'застрахованных и прикреплённых пациентов'],
+    ['100 000', 'работников промышленных компаний'],
+    ['5 000', 'сотрудников компании']
+  ];
+
+  // Врачи: [ФИО, специальность, город]
+  var doctorsRaw = [
+    ['Ахметова Амина', 'Врач УЗИ', 'Астана'],
+    ['Ержанов Данияр', 'Эндокринолог', 'Алматы'],
+    ['Соколова Елена', 'Врач функциональной диагностики', 'Астана'],
+    ['Жумабаев Тимур', 'Эндоскопист (ФГДС)', 'Караганда'],
+    ['Касымов Арман', 'Кардиолог', 'Астана'],
+    ['Нургалиева Мадина', 'Гастроэнтеролог', 'Шымкент'],
+    ['Левин Павел', 'Флеболог', 'Алматы'],
+    ['Серикова Динара', 'Дерматолог', 'Астана'],
+    ['Оспанов Ержан', 'Невролог', 'Караганда'],
+    ['Беккожина Алия', 'Терапевт', 'Актобе'],
+    ['Абдрахманов Нурлан', 'Уролог', 'Атырау'],
+    ['Тулегенова Гульмира', 'Гинеколог', 'Астана'],
+    ['Мусин Андрей', 'ЛОР-врач', 'Алматы'],
+    ['Искакова Сания', 'Офтальмолог', 'Шымкент'],
+    ['Байжанов Руслан', 'Травматолог-ортопед', 'Караганда'],
+    ['Омарова Жанар', 'Пульмонолог', 'Астана'],
+    ['Козлов Игорь', 'Онколог', 'Алматы'],
+    ['Сагындыкова Айнур', 'Стоматолог', 'Актобе'],
+    ['Темирова Асель', 'Педиатр', 'Астана'],
+    ['Волкова Марина', 'Педиатр', 'Алматы'],
+    ['Мукашев Бауыржан', 'Детский офтальмолог', 'Астана'],
+    ['Рахимова Зарина', 'Детский дерматолог', 'Шымкент']
+  ];
+  var doctors = doctorsRaw.map(function (d, i) {
+    var n = String(i + 1); if (n.length < 2) n = '0' + n;
+    return { name: d[0], spec: d[1], city: d[2], phone: '+7 (700) 000-11-' + n };
+  });
+
+  // Лекарства (справочная информация, без дозировок)
+  var medicines = [
+    { n: 'Парацетамол', g: 'Жаропонижающее и обезболивающее', f: 'таблетки' },
+    { n: 'Ибупрофен', g: 'Противовоспалительное, обезболивающее', f: 'таблетки, суспензия' },
+    { n: 'Омепразол', g: 'Снижает кислотность желудка', f: 'капсулы' },
+    { n: 'Амоксициллин', g: 'Антибиотик (только по назначению врача)', f: 'капсулы, таблетки' },
+    { n: 'Метформин', g: 'Препарат при сахарном диабете 2 типа', f: 'таблетки' },
+    { n: 'Лоратадин', g: 'Антигистаминное, при аллергии', f: 'таблетки, сироп' },
+    { n: 'Эналаприл', g: 'Препарат для снижения давления', f: 'таблетки' },
+    { n: 'Левотироксин', g: 'Гормон щитовидной железы', f: 'таблетки' },
+    { n: 'Ацетилцистеин', g: 'Разжижает мокроту при кашле', f: 'порошок, таблетки шипучие' },
+    { n: 'Витамин D3', g: 'Витаминная добавка', f: 'капли' }
+  ];
+
+  // Центры (адреса примерные). photo: '' — если укажете путь к фото, оно заменит рисунок
+  var centers = [
+    { city: 'Астана', type: 'Головной офис и больница', addr: 'пр. Мангилик Ел, 21', hrs: 'Круглосуточно', style: 'tower', sun: 330, carX: 70, carCol: '#FFFFFF', amb: true, ambX: 290, photo: '' },
+    { city: 'Алматы', type: 'Многопрофильная больница', addr: 'пр. Достык, 50', hrs: 'Круглосуточно', style: 'wing', sun: 70, carX: 290, carCol: '#8F0A21', amb: true, ambX: 120, photo: '' },
+    { city: 'Караганда', type: 'Медицинский центр', addr: 'ул. Бухар жырау, 40', hrs: 'Пн–Сб 8:00–20:00', style: 'wide', sun: 320, carX: 60, carCol: '#2A1517', amb: false, ambX: 0, photo: '' },
+    { city: 'Шымкент', type: 'Медицинский центр', addr: 'пр. Тауке хана, 15', hrs: 'Пн–Сб 8:00–20:00', style: 'wing', sun: 80, carX: 250, carCol: '#FFFFFF', amb: false, ambX: 0, photo: '' },
+    { city: 'Актобе', type: 'Многопрофильная больница', addr: 'ул. Алии Молдагуловой, 30', hrs: 'Круглосуточно', style: 'tower', sun: 335, carX: 280, carCol: '#2A1517', amb: true, ambX: 70, photo: '' },
+    { city: 'Атырау', type: 'Медицинский центр', addr: 'пр. Азаттык, 20', hrs: 'Пн–Сб 8:00–20:00', style: 'wide', sun: 75, carX: 280, carCol: '#8F0A21', amb: false, ambX: 0, photo: '' }
+  ];
+
+  var advantages = [
+    'Единый контактный центр для сотрудников вашей компании',
+    'Прикрепление работников к ближайшему медицинскому центру',
+    'Медицинский пункт на территории предприятия',
+    'Понятные условия: один договор и прозрачные тарифы',
+    'Профилактика, которая снижает число больничных дней',
+    'Единая электронная карта каждого сотрудника'
+  ];
+  var assistServices = [
+    'Консультации врачей по телефону и видеосвязи',
+    'Плановые приёмы и диагностика',
+    'Профилактические осмотры и вакцинация',
+    'Экстренная помощь и медицинская транспортировка',
+    'Госпитализация в многопрофильные больницы сети',
+    'Сопровождение пациента на всех этапах лечения'
+  ];
+  // Слайды карусели. photo: '' — рисунок; можно указать путь к фото
+  var slides = [
+    { t: 'Приём врача', d: 'Консультации в медицинских центрах и на предприятиях.', scene: 1, photo: '' },
+    { t: 'Скорая помощь и транспортировка', d: 'Быстрая доставка пациента в нужную больницу.', scene: 2, photo: '' },
+    { t: 'Телемедицина', d: 'Консультация врача по видео из любой точки страны.', scene: 3, photo: '' },
+    { t: 'Лабораторная диагностика', d: 'Анализы с результатами в личном кабинете.', scene: 4, photo: '' },
+    { t: 'Медицинские пункты на предприятиях', d: 'Осмотры смен и первая помощь на рабочем месте.', scene: 5, photo: '' }
+  ];
+
+  // Партнёры. logo: '' — вместо значка и названия покажется ваш файл логотипа (например, 'img/halyk.png')
+  var partnersFin = [
+    { n: 'Halyk Bank', t: 'Финансовый партнёр', logo: '' },
+    { n: 'Freedom', t: 'Финансовый партнёр', logo: '' }
+  ];
+  var partnersMed = [
+    { n: 'Mediker', t: 'Медицинский партнёр', logo: '' },
+    { n: 'Damumed', t: 'Медицинский партнёр', logo: '' }
+  ];
+
+  // =====================================================
+  //  ВСПОМОГАТЕЛЬНОЕ
+  // =====================================================
+  function $(s) { return document.querySelector(s); }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // Значки (рисунки специальностей), сетка 48x48
+  var ICONS = {
+    home: '<path d="M6 22L24 7l18 15"/><path d="M11 20v21h26V20"/><path d="M20 41V28h8v13"/>',
+    hosp: '<rect x="9" y="12" width="30" height="30" rx="2"/><path d="M24 19v12M18 25h12"/><path d="M19 42v-6h10v6"/><path d="M14 12V6h20v6"/>',
+    phone: '<path d="M14 6h7l3 9-4 3c2 5 5 8 10 10l3-4 9 3v7c0 2-2 4-4 4C20 38 10 28 10 10c0-2 2-4 4-4z"/>',
+    info: '<circle cx="24" cy="24" r="17"/><path d="M24 22v11M24 15v2"/>',
+    bank: '<path d="M6 20L24 8l18 12z"/><path d="M10 24v12M19 24v12M29 24v12M38 24v12M6 41h36"/>',
+    shield: '<path d="M24 6l15 5v11c0 10-7 17-15 20C16 39 9 32 9 22V11z"/><path d="M24 16v14M17 23h14"/>',
+    us: '<path d="M20 6h8v14c0 3-2 4-4 4s-4-1-4-4z"/><path d="M15 31q9 7 18 0M10 37q14 10 28 0"/>',
+    endo: '<path d="M23 24c-2-10-10-12-13-5-2 8 4 17 11 14 2-1 2-5 2-9z"/><path d="M25 24c2-10 10-12 13-5 2 8-4 17-11 14-2-1-2-5-2-9z"/><circle cx="24" cy="9" r="2"/>',
+    func: '<rect x="6" y="8" width="36" height="26" rx="3"/><path d="M10 22h7l3-8 5 16 4-12 3 4h8"/><path d="M18 40h12M24 34v6"/>',
+    fgds: '<rect x="5" y="34" width="9" height="9" rx="2"/><path d="M14 38C26 38 18 24 28 22c8-2 8-8 10-14" stroke-width="3.2"/><circle cx="38" cy="7" r="3"/>',
+    cardio: '<path d="M24 41C8 30 6 20 10 15c4-5 11-4 14 2 3-6 10-7 14-2 4 5 2 15-14 26z"/><path d="M12 25h7l3-6 4 11 3-5h7"/>',
+    gastro: '<path d="M18 6v10c0 6-9 8-9 18 0 6 6 8 12 7 10-1 18-7 17-15-1-6-8-5-11-9-1-2-1-5-1-8V6"/>',
+    phleb: '<path d="M24 6v16"/><path d="M24 22c-6 4-8 10-6 20"/><path d="M24 22c6 4 8 8 6 14"/><path d="M20.5 31 14 29M28.5 29l6-3"/><circle cx="24" cy="22" r="2.5"/>',
+    derm: '<circle cx="20" cy="20" r="11"/><path d="M28 28l12 12"/><circle cx="16" cy="17" r="1.6" fill="currentColor"/><circle cx="23" cy="21" r="1.6" fill="currentColor"/><circle cx="18" cy="25" r="1.6" fill="currentColor"/>',
+    neuro: '<path d="M24 10C19 6 11 9 11 16c-4 2-4 9 0 11-2 5 3 11 8 9 1 3 5 4 5 4"/><path d="M24 10c5-4 13-1 13 6 4 2 4 9 0 11 2 5-3 11-8 9-1 3-5 4-5 4"/><path d="M24 10v30"/><path d="M17 18c3 0 4 3 7 3M31 18c-3 0-4 3-7 3M16 29c3 0 5-2 8-2M32 29c-3 0-5-2-8-2"/>',
+    ther: '<path d="M12 8v10a8 8 0 0 0 16 0V8"/><path d="M20 26v6a8 8 0 0 0 16 0v-5"/><circle cx="36" cy="24" r="3"/>',
+    uro: '<path d="M30 8C20 6 12 12 12 22c0 12 6 18 14 18 8 0 10-6 6-9-4-3-2-6 1-8 5-4 5-13-3-15z"/><path d="M28 31v10"/>',
+    gyn: '<circle cx="24" cy="18" r="9"/><path d="M24 27v14M17 34h14"/>',
+    ent: '<path d="M17 38c-4-4-6-8-6-15 0-8 5-14 13-14s13 5 13 13c0 6-5 8-7 10-2 2-2 5-4 8-2 3-7 3-9-2z"/><path d="M20 23c0-3 2-5 5-5s5 2 5 5"/>',
+    eye: '<path d="M4 24C10 14 38 14 44 24 38 34 10 34 4 24z"/><circle cx="24" cy="24" r="6"/><circle cx="24" cy="24" r="2" fill="currentColor"/>',
+    bone: '<g transform="rotate(-35 24 24)" fill="currentColor" stroke="none"><rect x="12" y="21" width="24" height="6"/><circle cx="12" cy="20" r="4"/><circle cx="12" cy="28" r="4"/><circle cx="36" cy="20" r="4"/><circle cx="36" cy="28" r="4"/></g>',
+    lung: '<path d="M21 16C13 18 8 28 8 38c0 3 3 3 6 2 5-1 7-4 7-9z"/><path d="M27 16c8 2 13 12 13 22 0 3-3 3-6 2-5-1-7-4-7-9z"/><path d="M24 8v16M24 24l-5 4M24 24l5 4"/>',
+    onco: '<path d="M24 6c-6 0-9 5-9 9 0 6 6 10 9 14 3-4 9-8 9-14 0-4-3-9-9-9z"/><path d="M24 29l-8 13M24 29l8 13"/>',
+    tooth: '<path d="M14 9c-4 0-7 3-7 8 0 6 4 8 5 14 1 6 3 9 5 9 3 0 3-9 6-9s3 9 6 9c2 0 4-3 5-9 1-6 5-8 5-14 0-5-3-8-7-8-4 0-6 2-9 2s-5-2-9-2z"/>',
+    lab: '<path d="M18 6h12M20 6v26a4 4 0 0 0 8 0V6"/><path d="M20 24h8"/><circle cx="24" cy="14" r="1.5"/>',
+    mri: '<circle cx="24" cy="22" r="16"/><circle cx="24" cy="22" r="8"/><path d="M6 42h36"/>',
+    peds: '<circle cx="24" cy="26" r="14"/><circle cx="9" cy="26" r="3.5"/><circle cx="39" cy="26" r="3.5"/><circle cx="18.5" cy="24" r="1.6" fill="currentColor"/><circle cx="29.5" cy="24" r="1.6" fill="currentColor"/><path d="M19 31q5 5 10 0"/><path d="M24 12c-3-4 2-7 5-3"/>',
+    vac: '<g transform="rotate(-45 24 24)"><rect x="14" y="19" width="22" height="10" rx="2"/><path d="M36 24h6M42 19v10M14 24H6M20 19v4M25 19v4M30 19v4"/></g>',
+    speech: '<path d="M8 10h32a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H22l-8 8v-8H8a2 2 0 0 1-2-2V12a2 2 0 0 1 2-2z"/><path d="M14 18h20M14 24h12"/>'
+  };
+  function ic(name, size) {
+    size = size || 40;
+    return '<svg viewBox="0 0 48 48" width="' + size + '" height="' + size + '" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + ICONS[name] + '</svg>';
+  }
+
+  // =====================================================
+  //  РИСУНКИ: главная картинка, здания, сцены ассистанса
+  // =====================================================
+  var uidN = 0;
+  function uid() { uidN += 1; return 'u' + uidN; }
+  function lg(id, d, stops) {
+    var s = '<linearGradient id="' + id + '" x1="' + d[0] + '" y1="' + d[1] + '" x2="' + d[2] + '" y2="' + d[3] + '">';
+    stops.forEach(function (st) {
+      s += '<stop offset="' + st[0] + '" stop-color="' + st[1] + '"' + (st[2] != null ? ' stop-opacity="' + st[2] + '"' : '') + '/>';
+    });
+    return s + '</linearGradient>';
+  }
+  function svgArt(label, defs, body, o) {
+    o = o || {};
+    return '<svg viewBox="' + (o.vb || '0 0 400 300') + '" preserveAspectRatio="' + (o.fit || 'xMidYMid slice') + '" role="img" aria-label="' + esc(label) + '"><defs>' + defs + '</defs>' + body + '</svg>';
+  }
+
+  // ---------- Главная картинка: врач ----------
+  (function () {
+    var a = uid(), b = uid(), cl = uid();
+    $('#heroPic').innerHTML =
+      '<svg viewBox="0 0 520 440" role="img" aria-label="Иллюстрация: врач со стетоскопом и показатели сети DinaMed"><defs>' +
+      '<radialGradient id="' + a + '" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#FFF1F3"/><stop offset="1" stop-color="#F6BEC7"/></radialGradient>' +
+      lg(b, [0, 0, 0, 1], [[0, '#FFFFFF'], [1, '#F1E3E5']]) +
+      '<clipPath id="' + cl + '"><rect width="520" height="440"/></clipPath></defs>' +
+      '<g clip-path="url(#' + cl + ')">' +
+      '<circle cx="260" cy="226" r="204" fill="url(#' + a + ')"/>' +
+      '<path d="M96 440C96 346 160 304 260 304s164 42 164 136z" fill="url(#' + b + ')" stroke="#E3C3C8" stroke-width="2"/>' +
+      '<path d="M224 304L260 376 296 304z" fill="#C8102E"/>' +
+      '<path d="M224 304l-22 40 40 40M296 304l22 40-40 40" fill="none" stroke="#E3C3C8" stroke-width="2"/>' +
+      '<path d="M242 262h36v46c-10 10-26 10-36 0z" fill="#F1C7B1"/>' +
+      '<circle cx="209" cy="222" r="9" fill="#F1C7B1"/><circle cx="311" cy="222" r="9" fill="#F1C7B1"/>' +
+      '<ellipse cx="260" cy="214" rx="50" ry="58" fill="#F1C7B1"/>' +
+      '<path d="M208 214C200 150 246 134 278 144c30 8 42 36 34 70-6-26-28-40-52-40s-40 14-52 40z" fill="#2A1517"/>' +
+      '<ellipse cx="242" cy="222" rx="3.2" ry="4.2" fill="#2A1517"/><ellipse cx="278" cy="222" rx="3.2" ry="4.2" fill="#2A1517"/>' +
+      '<path d="M232 210q10-6 20 0M268 210q10-6 20 0" fill="none" stroke="#2A1517" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M260 226v12q-5 3-8 0" fill="none" stroke="#D69E86" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M243 244q17 14 34 0" fill="none" stroke="#B0585F" stroke-width="3.5" stroke-linecap="round"/>' +
+      '<path d="M222 306c-14 44-2 76 30 84M298 306c14 44 2 76-30 84" fill="none" stroke="#2A1517" stroke-width="5" stroke-linecap="round"/>' +
+      '<circle cx="222" cy="306" r="5" fill="#2A1517"/><circle cx="298" cy="306" r="5" fill="#2A1517"/>' +
+      '<circle cx="260" cy="398" r="13" fill="#8F0A21" stroke="#2A1517" stroke-width="4"/>' +
+      '<rect x="322" y="352" width="48" height="32" rx="6" fill="#fff" stroke="#E3C3C8"/><path d="M346 358v20M336 368h20" stroke="#C8102E" stroke-width="5" stroke-linecap="round"/>' +
+      '<g transform="rotate(-35 80 220)"><path d="M68 208h12v24H68a12 12 0 0 1 0-24z" fill="#C8102E"/><path d="M80 208h12a12 12 0 0 1 0 24H80z" fill="#fff" stroke="#E3C3C8"/></g>' +
+      '<path d="M70 120h24M82 108v24M440 250h18M449 241v18" stroke="#C8102E" stroke-width="5" stroke-linecap="round"/>' +
+      '<rect x="340" y="44" width="150" height="70" rx="16" fill="#fff"/>' +
+      '<text x="356" y="78" font-size="26" font-weight="700" fill="#C8102E" font-family="Onest,system-ui,sans-serif">25 000+</text>' +
+      '<text x="356" y="100" font-size="13" fill="#6B4F53" font-family="Onest,system-ui,sans-serif">медицинских услуг</text>' +
+      '<rect x="30" y="322" width="170" height="70" rx="16" fill="#fff"/>' +
+      '<text x="46" y="356" font-size="26" font-weight="700" fill="#C8102E" font-family="Onest,system-ui,sans-serif">1000+</text>' +
+      '<text x="46" y="378" font-size="13" fill="#6B4F53" font-family="Onest,system-ui,sans-serif">медицинских центров</text>' +
+      '</g></svg>';
+  })();
+
+  // ---------- Рисунки больниц (только логотип DinaMed) ----------
+  function logoBadge(x, y, w) {
+    var h = Math.round(w * 0.26), q = h * 0.64, cx = x + h * 0.54, cy = y + h * 0.5;
+    return '<g><rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + (h / 3) + '" fill="#C8102E"/>' +
+      '<rect x="' + (x + h * 0.22) + '" y="' + (y + h * 0.18) + '" width="' + q + '" height="' + q + '" rx="' + (h * 0.16) + '" fill="#fff"/>' +
+      '<path d="M' + cx + ' ' + (cy - h * 0.22) + 'v' + (h * 0.44) + 'M' + (cx - h * 0.22) + ' ' + cy + 'h' + (h * 0.44) + '" stroke="#C8102E" stroke-width="' + (h * 0.14) + '"/>' +
+      '<text x="' + (x + h * 1.05) + '" y="' + (y + h * 0.68) + '" font-size="' + (h * 0.5) + '" font-weight="700" fill="#fff" font-family="Onest,system-ui,sans-serif">DinaMed</text></g>';
+  }
+  function winGrid(x, y, cols, rows, cw, ch, gx, gy, fill) {
+    var s = '';
+    for (var r = 0; r < rows; r++) {
+      for (var k = 0; k < cols; k++) {
+        s += '<rect x="' + (x + k * gx) + '" y="' + (y + r * gy) + '" width="' + cw + '" height="' + ch + '" rx="2" fill="' + fill + '"/>';
+      }
+    }
+    return s;
+  }
+  function tree(x, r) {
+    return '<rect x="' + (x - 2.5) + '" y="196" width="5" height="18" fill="#6B4A3A"/><circle cx="' + x + '" cy="186" r="' + r + '" fill="#6F9A5E"/><circle cx="' + (x - r * 0.4) + '" cy="' + (186 + r * 0.2) + '" r="' + (r * 0.6) + '" fill="#86B073"/>';
+  }
+  function car(x, col) {
+    return '<g><rect x="' + x + '" y="226" width="48" height="13" rx="5" fill="' + col + '"/>' +
+      '<path d="M' + (x + 10) + ' 226l6-10h18l7 10z" fill="' + col + '"/>' +
+      '<path d="M' + (x + 18) + ' 225l4-7h10l4 7z" fill="#CFE0EA"/>' +
+      '<circle cx="' + (x + 12) + '" cy="240" r="5.5" fill="#2A1517"/><circle cx="' + (x + 36) + '" cy="240" r="5.5" fill="#2A1517"/></g>';
+  }
+  function ambulance(x) {
+    return '<g><rect x="' + x + '" y="214" width="54" height="26" rx="4" fill="#fff" stroke="#D8C6CA"/>' +
+      '<path d="M' + (x + 54) + ' 224h10l6 8v8h-16z" fill="#fff" stroke="#D8C6CA"/>' +
+      '<rect x="' + x + '" y="228" width="54" height="5" fill="#C8102E"/>' +
+      '<path d="M' + (x + 27) + ' 217v9M' + (x + 22.5) + ' 221.5h9" stroke="#C8102E" stroke-width="3"/>' +
+      '<rect x="' + (x + 20) + '" y="210" width="14" height="4" rx="2" fill="#C8102E"/>' +
+      '<circle cx="' + (x + 14) + '" cy="242" r="6" fill="#2A1517"/><circle cx="' + (x + 56) + '" cy="242" r="6" fill="#2A1517"/></g>';
+  }
+
+  function bld(c) {
+    var sky = uid(), glass = uid(), shine = uid(), road = uid();
+    var gl = 'url(#' + glass + ')', sh = 'url(#' + shine + ')';
+    var s = '<svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Рисунок здания: ' + esc(c.type) + ', ' + esc(c.city) + '"><defs>' +
+      lg(sky, [0, 0, 0, 1], [[0, '#F6BFC8'], [0.65, '#FFEDEF'], [1, '#FFFFFF']]) +
+      lg(glass, [0, 0, 1, 1], [[0, '#DCE9F0'], [1, '#86A9BF']]) +
+      lg(shine, [0, 0, 1, 0], [[0, '#FFFFFF', 0], [0.5, '#FFFFFF', 0.5], [1, '#FFFFFF', 0]]) +
+      lg(road, [0, 0, 0, 1], [[0, '#7A666A'], [1, '#5B494D']]) + '</defs>';
+    s += '<rect width="400" height="260" fill="url(#' + sky + ')"/>';
+    s += '<circle cx="' + c.sun + '" cy="46" r="22" fill="#FFF6E5" opacity=".9"/>';
+    s += '<ellipse cx="90" cy="48" rx="34" ry="9" fill="#fff" opacity=".7"/><ellipse cx="116" cy="42" rx="22" ry="8" fill="#fff" opacity=".7"/><ellipse cx="320" cy="72" rx="30" ry="8" fill="#fff" opacity=".6"/>';
+    s += '<g fill="#EFC9CF" opacity=".8"><rect x="6" y="150" width="28" height="64"/><rect x="40" y="170" width="22" height="44"/><rect x="346" y="156" width="26" height="58"/><rect x="374" y="176" width="22" height="38"/></g>';
+
+    if (c.style === 'tower') {
+      s += '<rect x="70" y="150" width="260" height="62" rx="3" fill="#F4EEEF" stroke="#D8C6CA"/>';
+      s += winGrid(78, 168, 3, 1, 18, 26, 22, 0, gl) + winGrid(262, 168, 3, 1, 18, 26, 22, 0, gl);
+      s += '<rect x="146" y="40" width="108" height="172" fill="#F7F2F3" stroke="#D8C6CA"/>';
+      s += '<rect x="146" y="40" width="6" height="172" fill="#C8102E"/><rect x="248" y="40" width="6" height="172" fill="#C8102E"/>';
+      s += winGrid(160, 86, 4, 4, 18, 13, 22, 20, gl);
+      s += '<rect x="146" y="40" width="108" height="172" fill="' + sh + '" opacity=".7"/>';
+      s += '<rect x="140" y="34" width="120" height="7" fill="#8F0A21"/>';
+      s += logoBadge(154, 50, 92);
+      s += '<rect x="160" y="170" width="80" height="7" fill="#C8102E"/><rect x="170" y="177" width="60" height="35" fill="' + gl + '"/><path d="M200 177v35" stroke="#fff" stroke-width="2"/>';
+    } else if (c.style === 'wide') {
+      s += '<rect x="30" y="112" width="340" height="100" rx="3" fill="#F7F2F3" stroke="#D8C6CA"/>';
+      s += '<rect x="24" y="104" width="352" height="10" fill="#8F0A21"/>';
+      s += '<rect x="44" y="124" width="312" height="18" fill="' + gl + '"/><rect x="44" y="150" width="312" height="18" fill="' + gl + '"/>';
+      for (var k = 1; k < 9; k++) { s += '<path d="M' + (44 + k * 34.67) + ' 124v18M' + (44 + k * 34.67) + ' 150v18" stroke="#fff" stroke-width="2"/>'; }
+      s += '<rect x="44" y="178" width="104" height="26" fill="' + gl + '"/><rect x="252" y="178" width="104" height="26" fill="' + gl + '"/>';
+      s += '<rect x="30" y="112" width="340" height="100" fill="' + sh + '" opacity=".6"/>';
+      s += '<rect x="156" y="174" width="88" height="7" fill="#C8102E"/><rect x="170" y="181" width="60" height="31" fill="' + gl + '"/><path d="M200 181v31" stroke="#fff" stroke-width="2"/>';
+      s += '<rect x="150" y="70" width="4" height="34" fill="#8F0A21"/><rect x="246" y="70" width="4" height="34" fill="#8F0A21"/>' + logoBadge(140, 70, 120);
+    } else {
+      s += '<rect x="230" y="122" width="110" height="90" fill="#F1EAEB" stroke="#D8C6CA"/>';
+      s += '<rect x="60" y="58" width="170" height="154" fill="#F7F2F3" stroke="#D8C6CA"/><rect x="60" y="58" width="170" height="5" fill="#C8102E"/>';
+      s += winGrid(74, 100, 5, 5, 20, 14, 30, 20, gl) + winGrid(242, 136, 3, 2, 22, 14, 30, 22, gl);
+      s += '<rect x="60" y="58" width="170" height="154" fill="' + sh + '" opacity=".6"/>';
+      s += logoBadge(78, 68, 100);
+      s += '<rect x="258" y="172" width="54" height="6" fill="#C8102E"/><rect x="266" y="178" width="38" height="34" fill="' + gl + '"/>';
+    }
+
+    s += '<rect y="208" width="400" height="8" fill="#E5D8DA"/><rect y="216" width="400" height="44" fill="url(#' + road + ')"/>';
+    s += '<path d="M0 252H400" stroke="#EBD9DC" stroke-width="3" stroke-dasharray="22 16" opacity=".85"/>';
+    s += tree(32, 16) + tree(370, 14);
+    s += car(c.carX, c.carCol);
+    if (c.amb) { s += ambulance(c.ambX); }
+    return s + '</svg>';
+  }
+
+  // ---------- Галерея: медицина в картинках ----------
+  function artDNA() {
+    var g = uid(), a = '', b = '', r = '';
+    for (var i = 0; i <= 40; i++) {
+      var x = 24 + i * 9.2, t = i * 0.4, y1 = 150 + 70 * Math.sin(t), y2 = 150 - 70 * Math.sin(t);
+      a += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y1.toFixed(1);
+      b += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y2.toFixed(1);
+      if (i % 2 === 0) { r += '<line x1="' + x.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#fff" stroke-opacity=".45" stroke-width="3"/>'; }
+    }
+    return svgArt('Спираль ДНК', lg(g, [0, 0, 1, 1], [[0, '#5E0615'], [1, '#C8102E']]),
+      '<rect width="400" height="300" fill="url(#' + g + ')"/>' + r +
+      '<path d="' + a + '" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/><path d="' + b + '" fill="none" stroke="#F7A6B3" stroke-width="6" stroke-linecap="round"/>');
+  }
+  function artPills() {
+    var g = uid();
+    return svgArt('Капсулы и таблетки', lg(g, [0, 0, 0, 1], [[0, '#FFE3E7'], [1, '#F6BFC8']]),
+      '<rect width="400" height="300" fill="url(#' + g + ')"/>' +
+      '<ellipse cx="200" cy="268" rx="150" ry="14" fill="#8F0A21" opacity=".12"/>' +
+      '<g transform="rotate(-28 150 120)"><path d="M112 94h38v52h-38a26 26 0 0 1 0-52z" fill="#C8102E"/><path d="M150 94h38a26 26 0 0 1 0 52h-38z" fill="#fff"/><rect x="120" y="100" width="62" height="8" rx="4" fill="#fff" opacity=".4"/></g>' +
+      '<g transform="rotate(24 280 200)"><path d="M242 174h38v52h-38a26 26 0 0 1 0-52z" fill="#8F0A21"/><path d="M280 174h38a26 26 0 0 1 0 52h-38z" fill="#F7A6B3"/><rect x="250" y="180" width="62" height="8" rx="4" fill="#fff" opacity=".35"/></g>' +
+      '<circle cx="310" cy="84" r="34" fill="#fff" stroke="#E6C7CC" stroke-width="2"/><path d="M280 84h60" stroke="#E6C7CC" stroke-width="3"/>' +
+      '<circle cx="86" cy="214" r="28" fill="#fff" stroke="#E6C7CC" stroke-width="2"/><path d="M62 214h48" stroke="#E6C7CC" stroke-width="3"/>' +
+      '<circle cx="180" cy="236" r="16" fill="#C8102E"/><circle cx="174" cy="230" r="5" fill="#fff" opacity=".5"/>');
+  }
+  function artMicro() {
+    var g = uid();
+    return svgArt('Микроскоп в лаборатории', lg(g, [0, 0, 0, 1], [[0, '#FFE3E7'], [1, '#F6BFC8']]),
+      '<rect width="400" height="300" fill="url(#' + g + ')"/>' +
+      '<rect x="120" y="252" width="160" height="18" rx="8" fill="#8F0A21"/>' +
+      '<path d="M252 252C330 222 330 126 254 94" fill="none" stroke="#8F0A21" stroke-width="20" stroke-linecap="round"/>' +
+      '<path d="M178 64l48 108" stroke="#C8102E" stroke-width="34" stroke-linecap="round"/>' +
+      '<rect x="156" y="36" width="42" height="18" rx="6" transform="rotate(-22 177 45)" fill="#2A1517"/>' +
+      '<path d="M222 176l6 20" stroke="#2A1517" stroke-width="10" stroke-linecap="round"/>' +
+      '<rect x="170" y="204" width="104" height="10" rx="4" fill="#2A1517"/><rect x="190" y="196" width="60" height="8" fill="#fff"/>' +
+      '<circle cx="320" cy="70" r="6" fill="#fff" opacity=".7"/><circle cx="344" cy="96" r="4" fill="#fff" opacity=".7"/>');
+  }
+  function artECG() {
+    var g = uid(), grid = '';
+    for (var i = 1; i < 10; i++) { grid += '<path d="M' + i * 40 + ' 0V300" stroke="#fff" stroke-opacity=".06"/>'; }
+    for (var j = 1; j < 8; j++) { grid += '<path d="M0 ' + j * 40 + 'H400" stroke="#fff" stroke-opacity=".06"/>'; }
+    return svgArt('Монитор с кардиограммой', lg(g, [0, 0, 0, 1], [[0, '#3A1A1F'], [1, '#1A0B0E']]),
+      '<rect width="400" height="300" fill="url(#' + g + ')"/>' + grid +
+      '<text x="30" y="92" font-size="64" font-weight="700" fill="#fff" font-family="Onest,system-ui,sans-serif">72</text>' +
+      '<text x="118" y="92" font-size="16" fill="#F7A6B3" font-family="Onest,system-ui,sans-serif">уд/мин</text>' +
+      '<text x="270" y="60" font-size="14" fill="#F7A6B3" font-family="Onest,system-ui,sans-serif">SpO2</text><text x="270" y="92" font-size="34" font-weight="700" fill="#fff" font-family="Onest,system-ui,sans-serif">98%</text>' +
+      '<path d="M16 190h90l14-52 24 112 24-84 14 24h90l14-52 24 112 24-84 14 24h40" fill="none" stroke="#FF6B81" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>');
+  }
+  function artXray() {
+    var g = uid(), ribs = '', spine = '';
+    for (var i = 0; i < 6; i++) {
+      var y = 84 + i * 26;
+      ribs += '<path d="M192 ' + y + 'Q132 ' + (y - 16) + ' 86 ' + (y + 30) + 'M208 ' + y + 'Q268 ' + (y - 16) + ' 314 ' + (y + 30) + '" fill="none" stroke="#BFD0D8" stroke-opacity=".35" stroke-width="3"/>';
+    }
+    for (var k = 0; k < 13; k++) { spine += '<rect x="188" y="' + (46 + k * 18) + '" width="24" height="10" rx="3" fill="#BFD0D8" opacity=".35"/>'; }
+    return svgArt('Рентгенограмма грудной клетки', lg(g, [0, 0, 0, 1], [[0, '#16222A'], [1, '#0B1217']]),
+      '<rect width="400" height="300" fill="url(#' + g + ')"/>' +
+      '<path d="M150 70C100 80 70 150 74 230c1 12 18 14 36 8 26-8 40-24 40-56z" fill="#7FA0B5" fill-opacity=".22" stroke="#BFD0D8" stroke-opacity=".6" stroke-width="2"/>' +
+      '<path d="M250 70C300 80 330 150 326 230c-1 12-18 14-36 8-26-8-40-24-40-56z" fill="#7FA0B5" fill-opacity=".22" stroke="#BFD0D8" stroke-opacity=".6" stroke-width="2"/>' +
+      '<ellipse cx="214" cy="204" rx="34" ry="42" fill="#BFD0D8" opacity=".2"/>' + ribs + spine +
+      '<text x="30" y="46" font-size="22" font-weight="700" fill="#fff" font-family="Onest,system-ui,sans-serif">R</text>');
+  }
+  function artVac() {
+    var g = uid();
+    return svgArt('Шприц и флакон с вакциной', lg(g, [0, 0, 0, 1], [[0, '#FFE3E7'], [1, '#F6BFC8']]),
+      '<rect width="400" height="300" fill="url(#' + g + ')"/>' +
+      '<ellipse cx="200" cy="270" rx="150" ry="12" fill="#8F0A21" opacity=".12"/>' +
+      '<rect x="258" y="112" width="70" height="140" rx="12" fill="#fff" stroke="#E6C7CC" stroke-width="2"/>' +
+      '<rect x="262" y="176" width="62" height="72" rx="8" fill="#C8102E" opacity=".85"/>' +
+      '<rect x="266" y="92" width="54" height="26" rx="6" fill="#8F0A21"/>' +
+      '<rect x="272" y="140" width="42" height="30" rx="4" fill="#fff"/><path d="M293 146v18M284 155h18" stroke="#C8102E" stroke-width="4"/>' +
+      '<g transform="rotate(-35 150 180)"><rect x="60" y="166" width="170" height="28" rx="6" fill="#fff" stroke="#2A1517" stroke-width="4"/>' +
+      '<rect x="64" y="170" width="92" height="20" rx="3" fill="#C8102E" opacity=".8"/>' +
+      '<path d="M170 166v10M186 166v10M202 166v10" stroke="#2A1517" stroke-width="3"/>' +
+      '<rect x="230" y="174" width="30" height="12" fill="#2A1517"/><rect x="258" y="162" width="10" height="36" rx="3" fill="#2A1517"/>' +
+      '<path d="M60 180H14" stroke="#2A1517" stroke-width="4" stroke-linecap="round"/></g>');
+  }
+  function artTeddy() {
+    var g = uid();
+    return svgArt('Плюшевый мишка со стетоскопом и воздушным шаром-сердцем', lg(g, [0, 0, 0, 1], [[0, '#FFD9DF'], [1, '#FFF1F3']]),
+      '<rect width="320" height="312" rx="28" fill="url(#' + g + ')"/>' +
+      '<path d="M262 112q-10 40-30 74" fill="none" stroke="#8F0A21" stroke-width="2"/>' +
+      '<path d="M262 60c-18-22-48-4-34 22 8 14 34 30 34 30s26-16 34-30c14-26-16-44-34-22z" fill="#C8102E"/>' +
+      '<ellipse cx="248" cy="74" rx="6" ry="4" fill="#fff" opacity=".5"/>' +
+      '<circle cx="84" cy="282" r="24" fill="#C98B5E"/><circle cx="176" cy="282" r="24" fill="#C98B5E"/><circle cx="84" cy="286" r="12" fill="#E8BE98"/><circle cx="176" cy="286" r="12" fill="#E8BE98"/>' +
+      '<ellipse cx="130" cy="230" rx="64" ry="62" fill="#C98B5E"/><ellipse cx="130" cy="240" rx="40" ry="40" fill="#E8BE98"/>' +
+      '<ellipse cx="70" cy="205" rx="18" ry="34" transform="rotate(25 70 205)" fill="#C98B5E"/><ellipse cx="190" cy="205" rx="18" ry="34" transform="rotate(-25 190 205)" fill="#C98B5E"/>' +
+      '<circle cx="84" cy="76" r="22" fill="#C98B5E"/><circle cx="176" cy="76" r="22" fill="#C98B5E"/><circle cx="84" cy="76" r="11" fill="#E8BE98"/><circle cx="176" cy="76" r="11" fill="#E8BE98"/>' +
+      '<circle cx="130" cy="122" r="58" fill="#C98B5E"/><ellipse cx="130" cy="140" rx="26" ry="20" fill="#E8BE98"/>' +
+      '<ellipse cx="130" cy="130" rx="9" ry="6" fill="#2A1517"/><path d="M130 136v8M118 148q12 10 24 0" fill="none" stroke="#2A1517" stroke-width="3" stroke-linecap="round"/>' +
+      '<circle cx="106" cy="112" r="6" fill="#2A1517"/><circle cx="154" cy="112" r="6" fill="#2A1517"/><circle cx="108" cy="110" r="2" fill="#fff"/><circle cx="156" cy="110" r="2" fill="#fff"/>' +
+      '<g transform="rotate(25 165 77)"><rect x="148" y="70" width="34" height="14" rx="4" fill="#FFE6C7" stroke="#D9B48A"/><circle cx="158" cy="77" r="1.6" fill="#D9B48A"/><circle cx="165" cy="77" r="1.6" fill="#D9B48A"/><circle cx="172" cy="77" r="1.6" fill="#D9B48A"/></g>' +
+      '<path d="M92 178c-2 30 10 52 38 54 28-2 40-24 38-54" fill="none" stroke="#2A1517" stroke-width="5" stroke-linecap="round"/>' +
+      '<circle cx="130" cy="232" r="10" fill="#C8102E" stroke="#2A1517" stroke-width="3"/>' +
+      '<circle cx="40" cy="60" r="5" fill="#F7A6B3"/><circle cx="62" cy="30" r="3" fill="#F7A6B3"/><circle cx="290" cy="220" r="6" fill="#F7A6B3"/><circle cx="296" cy="256" r="3.5" fill="#F7A6B3"/>',
+      { vb: '0 0 320 312', fit: 'xMidYMid meet' });
+  }
+
+  var P = { r: '#C8102E', d: '#8F0A21', p: '#FDECEE', k: '#2A1517', s: '#F1C7B1', f: '#EBC9CE' };
+  function wrapScene(inner, label) {
+    var v = uid();
+    return '<svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="' + esc(label) + '"><defs>' +
+      lg(v, [0, 0, 0, 1], [[0, '#FFFFFF', 0.28], [0.55, '#FFFFFF', 0], [1, '#8F0A21', 0.16]]) + '</defs>' + inner +
+      '<rect width="640" height="400" fill="url(#' + v + ')"/></svg>';
+  }
+  function scene(n, label) {
+    var o = '<rect width="640" height="400" fill="' + P.p + '"/>';
+    if (n === 1) {
+      o += '<rect y="310" width="640" height="90" fill="' + P.f + '"/>';
+      o += '<rect x="50" y="50" width="150" height="130" rx="8" fill="#fff" stroke="' + P.r + '" stroke-width="5"/><path d="M125 50v130M50 115h150" stroke="' + P.r + '" stroke-width="4"/>';
+      o += '<rect x="420" y="70" width="150" height="90" rx="8" fill="#fff" stroke="#E9C3C8" stroke-width="3"/><path d="M445 120h30l10-22 16 40 12-24 10 6h30" fill="none" stroke="' + P.r + '" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>';
+      o += '<rect x="236" y="190" width="96" height="124" rx="26" fill="#fff" stroke="' + P.r + '" stroke-width="4"/><path d="M262 190l22 34 22-34" fill="none" stroke="' + P.r + '" stroke-width="4"/>';
+      o += '<circle cx="284" cy="158" r="30" fill="' + P.s + '"/><path d="M254 154c2-22 40-28 60 0-10-8-40-8-60 0z" fill="' + P.k + '"/>';
+      o += '<path d="M262 232c-10 20 0 40 20 40" fill="none" stroke="' + P.k + '" stroke-width="4"/><circle cx="286" cy="274" r="6" fill="' + P.k + '"/>';
+      o += '<rect x="430" y="196" width="80" height="118" rx="24" fill="' + P.r + '"/><circle cx="470" cy="166" r="27" fill="' + P.s + '"/><path d="M444 160c4-24 48-24 52 0-14-8-38-8-52 0z" fill="#5E3A2B"/>';
+      o += '<rect x="200" y="262" width="380" height="16" rx="4" fill="' + P.d + '"/><rect x="220" y="278" width="14" height="40" fill="' + P.d + '"/><rect x="546" y="278" width="14" height="40" fill="' + P.d + '"/>';
+      o += '<rect x="350" y="214" width="70" height="48" rx="4" fill="#fff" stroke="' + P.k + '" stroke-width="4"/>';
+    } else if (n === 2) {
+      o += '<rect x="40" y="120" width="90" height="190" fill="#F6D3D7"/><rect x="150" y="165" width="70" height="145" fill="#F8DDE0"/><rect x="500" y="100" width="110" height="210" fill="#F6D3D7"/>';
+      o += '<rect y="306" width="640" height="94" fill="#7A4A52"/><path d="M0 354H640" stroke="#fff" stroke-width="5" stroke-dasharray="36 28"/>';
+      o += '<rect x="150" y="186" width="270" height="116" rx="14" fill="#fff" stroke="' + P.k + '" stroke-width="5"/>';
+      o += '<path d="M420 214h40l32 36v52H420z" fill="#fff" stroke="' + P.k + '" stroke-width="5" stroke-linejoin="round"/><path d="M432 224h24l22 26h-46z" fill="#F8CDD3"/>';
+      o += '<rect x="150" y="256" width="270" height="16" fill="' + P.r + '"/>';
+      o += '<rect x="250" y="168" width="70" height="16" rx="6" fill="' + P.r + '"/>';
+      o += '<circle cx="285" cy="226" r="22" fill="' + P.r + '"/><path d="M285 212v28M271 226h28" stroke="#fff" stroke-width="7"/>';
+      o += '<circle cx="215" cy="304" r="28" fill="' + P.k + '"/><circle cx="215" cy="304" r="11" fill="#D9C8CA"/><circle cx="450" cy="304" r="28" fill="' + P.k + '"/><circle cx="450" cy="304" r="11" fill="#D9C8CA"/>';
+    } else if (n === 3) {
+      o += '<rect y="330" width="640" height="70" fill="' + P.f + '"/>';
+      o += '<rect x="150" y="60" width="340" height="230" rx="14" fill="#fff" stroke="' + P.k + '" stroke-width="6"/><rect x="170" y="80" width="300" height="190" rx="6" fill="#F8CDD3"/>';
+      o += '<rect x="262" y="170" width="116" height="100" rx="30" fill="#fff" stroke="' + P.r + '" stroke-width="4"/><circle cx="320" cy="136" r="32" fill="' + P.s + '"/><path d="M288 132c3-26 61-26 64 0-14-10-50-10-64 0z" fill="' + P.k + '"/>';
+      o += '<circle cx="320" cy="216" r="16" fill="' + P.r + '"/><path d="M320 207v18M311 216h18" stroke="#fff" stroke-width="5"/>';
+      o += '<rect x="184" y="94" width="86" height="34" rx="12" fill="#fff"/><rect x="396" y="108" width="62" height="30" rx="12" fill="' + P.r + '"/>';
+      o += '<rect x="110" y="290" width="420" height="20" rx="10" fill="' + P.d + '"/>';
+      o += '<rect x="530" y="170" width="76" height="140" rx="14" fill="#fff" stroke="' + P.k + '" stroke-width="5"/><circle cx="568" cy="226" r="20" fill="' + P.r + '"/><path d="M568 214v24M556 226h24" stroke="#fff" stroke-width="6"/>';
+    } else if (n === 4) {
+      o += '<rect y="318" width="640" height="82" fill="' + P.f + '"/>';
+      o += '<rect x="60" y="60" width="520" height="12" rx="4" fill="' + P.d + '"/><rect x="90" y="40" width="30" height="20" rx="4" fill="#F8CDD3"/><rect x="140" y="30" width="30" height="30" rx="4" fill="#F8CDD3"/>';
+      o += '<rect x="130" y="294" width="280" height="18" rx="6" fill="' + P.d + '"/>';
+      var cols = ['#C8102E', '#E8788A', '#8F0A21', '#F2B3BC', '#C8102E'];
+      for (var i = 0; i < 5; i++) {
+        var tx = 150 + i * 52;
+        o += '<rect x="' + tx + '" y="170" width="26" height="124" rx="13" fill="#fff" stroke="' + P.k + '" stroke-width="4"/><rect x="' + (tx + 3) + '" y="' + (222 - i * 8) + '" width="20" height="' + (68 + i * 8) + '" rx="10" fill="' + cols[i] + '"/>';
+      }
+      o += '<rect x="440" y="300" width="130" height="16" rx="6" fill="' + P.d + '"/>';
+      o += '<path d="M540 300C590 250 590 170 530 140" fill="none" stroke="' + P.d + '" stroke-width="16" stroke-linecap="round"/>';
+      o += '<path d="M490 120l36 90" stroke="' + P.r + '" stroke-width="26" stroke-linecap="round"/><rect x="470" y="228" width="70" height="10" rx="4" fill="' + P.k + '"/><circle cx="482" cy="106" r="12" fill="' + P.k + '"/>';
+    } else {
+      o += '<rect y="312" width="640" height="88" fill="' + P.f + '"/>';
+      o += '<rect x="70" y="170" width="270" height="142" fill="#fff" stroke="' + P.d + '" stroke-width="5"/><path d="M70 170l45-40v40l45-40v40l45-40v40l45-40v40l45-40v40" fill="#F8CDD3" stroke="' + P.d + '" stroke-width="5" stroke-linejoin="round"/>';
+      o += '<rect x="110" y="70" width="28" height="100" fill="' + P.d + '"/><rect x="170" y="90" width="28" height="80" fill="' + P.d + '"/>';
+      o += '<circle cx="126" cy="54" r="16" fill="#fff"/><circle cx="150" cy="40" r="12" fill="#fff"/><circle cx="188" cy="72" r="13" fill="#fff"/>';
+      o += '<rect x="100" y="210" width="40" height="40" fill="#F8CDD3"/><rect x="170" y="210" width="40" height="40" fill="#F8CDD3"/><rect x="240" y="210" width="40" height="40" fill="#F8CDD3"/>';
+      o += '<rect x="380" y="214" width="190" height="98" rx="8" fill="#fff" stroke="' + P.r + '" stroke-width="5"/><rect x="368" y="198" width="214" height="22" rx="6" fill="' + P.r + '"/>';
+      o += '<circle cx="475" cy="254" r="18" fill="' + P.r + '"/><path d="M475 243v22M464 254h22" stroke="#fff" stroke-width="6"/><rect x="440" y="276" width="70" height="36" fill="#F8CDD3"/>';
+      o += '<circle cx="334" cy="300" r="12" fill="' + P.s + '"/><path d="M322 296a12 12 0 0 1 24 0z" fill="#E8A33D"/><rect x="324" y="312" width="20" height="0" fill="none"/>';
+    }
+    return wrapScene(o, label);
+  }
+
+  // =====================================================
+  //  ОТРИСОВКА РАЗДЕЛОВ
+  // =====================================================
+  function svcCard(s, extra) {
+    return '<article class="svc"' + (extra ? ' hidden data-extra' : '') + '>' +
+      '<div class="svc-ico">' + ic(s.i, 34) + '</div>' +
+      '<h3>' + esc(s.n) + '</h3><p>' + esc(s.d) + '</p>' +
+      (s.q ? '<button type="button" class="more-link" data-find="' + esc(s.q) + '">Найти врача</button>' : '') +
+      '</article>';
+  }
+  $('#svcGrid').innerHTML = services.map(function (s) { return svcCard(s, false); }).join('') +
+    moreServices.map(function (s) { return svcCard(s, true); }).join('');
+  $('#kidGrid').innerHTML = kids.map(function (s) { return svcCard(s, false); }).join('');
+  $('#kidOther').innerHTML = '<strong>Также для детей:</strong>' + kidsOther.map(function (t) { return '<span class="tag">' + esc(t) + '</span>'; }).join('');
+
+  var moreBtn = $('#moreBtn');
+  moreBtn.addEventListener('click', function () {
+    var open = moreBtn.getAttribute('aria-expanded') === 'true';
+    var items = document.querySelectorAll('#svcGrid [data-extra]');
+    for (var i = 0; i < items.length; i++) items[i].hidden = open;
+    moreBtn.setAttribute('aria-expanded', open ? 'false' : 'true');
+    $('#moreTxt').textContent = open ? 'Еще' : 'Свернуть';
+  });
+
+  $('#tiles').innerHTML = tiles.map(function (t) {
+    return '<div class="tile"><b>' + esc(t[0]) + '</b><span>' + esc(t[1]) + '</span></div>';
+  }).join('');
+
+  $('#centers').innerHTML = centers.map(function (c) {
+    var pic = c.photo ? '<img src="' + esc(c.photo) + '" alt="Центр DinaMed, ' + esc(c.city) + '">' : bld(c);
+    return '<article class="center"><div class="pic">' + pic + '</div><div class="body">' +
+      '<span class="pill">' + esc(c.type) + '</span><h4>' + esc(c.city) + '</h4>' +
+      '<span class="addr">' + esc(c.addr) + '</span><span class="hrs">' + esc(c.hrs) + '</span></div></article>';
+  }).join('');
+
+  var checkSvg = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="#C8102E" stroke="#F7C6CD"/><path d="M6 10.5l3 3 5-6"/></svg>';
+  function list(arr) { return arr.map(function (t) { return '<li>' + checkSvg + '<span>' + esc(t) + '</span></li>'; }).join(''); }
+  $('#advList').innerHTML = list(advantages);
+  $('#assistList').innerHTML = list(assistServices);
+
+  $('#track').innerHTML = slides.map(function (s, i) {
+    var pic = s.photo ? '<img src="' + esc(s.photo) + '" alt="' + esc(s.t) + '">' : scene(s.scene, s.t);
+    return '<figure class="slide" aria-roledescription="слайд" aria-label="' + (i + 1) + ' из ' + slides.length + '"><div class="pic">' + pic + '</div><figcaption><b>' + esc(s.t) + '</b>' + esc(s.d) + '</figcaption></figure>';
+  }).join('');
+
+  function partnerCards(arr, icon) {
+    return arr.map(function (p) {
+      var pic = p.logo ? '<img src="' + esc(p.logo) + '" alt="' + esc(p.n) + '">' : '<span class="pico">' + ic(icon, 28) + '</span><b>' + esc(p.n) + '</b>';
+      return '<div class="pcard">' + pic + '<small>' + esc(p.t) + '</small></div>';
+    }).join('');
+  }
+  $('#pFin').innerHTML = partnerCards(partnersFin, 'bank');
+  $('#pMed').innerHTML = partnerCards(partnersMed, 'shield');
+
+  // Галерея и рисунок для раздела «Детям»
+  // Реальные фото с Wikimedia Commons (file — имя файла на Commons). Если фото не загрузится, останется рисунок
+  var galItems = [
+    { t: 'Приём врача', art: artECG(), file: 'Doctor talking with a patient.jpg' },
+    { t: 'Лаборатория', art: artMicro(), file: 'Doctor looking in the microscope.jpg' },
+    { t: 'Анализы крови', art: artVac(), file: 'Blood Test (15575812743).jpg' },
+    { t: 'УЗИ-диагностика', art: artXray(), file: 'Doppler Ultrasound and Vascular Sonography Examination in Navi Mumbai, Maharashtra, India.jpg' },
+    { t: 'Лаборант за работой', art: artDNA(), file: 'Lab Technician.jpg' },
+    { t: 'Скорая помощь', art: scene(2, 'Скорая помощь'), file: 'Ambulance-interior.jpg' }
+  ];
+  $('#gal').innerHTML = galItems.map(function (g) {
+    var url = 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(g.file) + '?width=900';
+    var page = 'https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(g.file.replace(/ /g, '_'));
+    return '<figure>' + g.art + '<img class="ph" loading="lazy" referrerpolicy="no-referrer" src="' + url + '" alt="' + esc(g.t) + '">' +
+      '<figcaption>' + esc(g.t) + '</figcaption><a class="src" href="' + page + '" target="_blank" rel="noopener">Источник</a></figure>';
+  }).join('');
+  Array.prototype.forEach.call(document.querySelectorAll('#gal img.ph'), function (im) {
+    im.addEventListener('error', function () { im.remove(); });
+  });
+  $('#kidsArt').innerHTML = artTeddy();
+
+  // =====================================================
+  //  КАРУСЕЛЬ
+  // =====================================================
+  var track = $('#track');
+  function slideStep() {
+    var s = track.querySelector('.slide');
+    return s ? s.getBoundingClientRect().width + 16 : track.clientWidth;
+  }
+  function updCounter() {
+    var i = Math.round(track.scrollLeft / slideStep());
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    $('#counter').textContent = (i + 1) + ' / ' + slides.length;
+  }
+  $('#prev').addEventListener('click', function () { track.scrollBy({ left: -slideStep(), behavior: 'smooth' }); });
+  $('#next').addEventListener('click', function () { track.scrollBy({ left: slideStep(), behavior: 'smooth' }); });
+  track.addEventListener('scroll', updCounter, { passive: true });
+  track.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { track.scrollBy({ left: slideStep(), behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { track.scrollBy({ left: -slideStep(), behavior: 'smooth' }); }
+  });
+  window.addEventListener('resize', updCounter);
+  updCounter();
+
+  // =====================================================
+  //  ПОИСК: врачи и лекарства
+  // =====================================================
+  var mode = 'doc';
+  var input = $('#q');
+  var resultsEl = $('#results');
+  var chipsEl = $('#chips');
+  var examples = {
+    doc: ['Кардиолог', 'Невролог', 'Педиатр', 'Астана'],
+    med: ['Парацетамол', 'Омепразол', 'Витамин D3']
+  };
+
+  function initials(name) {
+    var p = name.split(' ');
+    return (p[0].charAt(0) + (p[1] ? p[1].charAt(0) : '')).toUpperCase();
+  }
+  function renderChips() {
+    chipsEl.innerHTML = '<span>Например:</span>' + examples[mode].map(function (t) {
+      return '<button type="button" class="chip" data-chip="' + esc(t) + '">' + esc(t) + '</button>';
+    }).join('');
+  }
+  function runSearch() {
+    var q = input.value.trim().toLowerCase();
+    if (!q) { resultsEl.innerHTML = ''; return; }
+    var html = '';
+    if (mode === 'doc') {
+      var found = doctors.filter(function (d) {
+        return (d.name + ' ' + d.spec + ' ' + d.city).toLowerCase().indexOf(q) !== -1;
+      });
+      html = '<div class="res-count">Найдено врачей: ' + found.length + '</div>';
+      if (!found.length) {
+        html += '<div class="res"><div class="tx"><b>Ничего не найдено</b><span>Попробуйте «кардиолог», название города или фамилию.</span></div></div>';
+      }
+      html += found.map(function (d) {
+        return '<div class="res"><div class="ava" aria-hidden="true">' + esc(initials(d.name)) + '</div>' +
+          '<div class="tx"><b>' + esc(d.name) + '</b><span>' + esc(d.spec) + ' · ' + esc(d.city) + '</span></div>' +
+          '<span class="ph">' + esc(d.phone) + '</span></div>';
+      }).join('');
+    } else {
+      var m = medicines.filter(function (x) {
+        return (x.n + ' ' + x.g).toLowerCase().indexOf(q) !== -1;
+      });
+      html = '<div class="res-count">Найдено препаратов: ' + m.length + '</div>';
+      if (!m.length) {
+        html += '<div class="res"><div class="tx"><b>Ничего не найдено</b><span>Проверьте название или попробуйте другое слово, например «кашель».</span></div></div>';
+      }
+      html += m.map(function (x) {
+        return '<div class="res"><div class="ava med" aria-hidden="true">Rx</div>' +
+          '<div class="tx"><b>' + esc(x.n) + '</b><span>' + esc(x.g) + ' · ' + esc(x.f) + '</span></div></div>';
+      }).join('');
+      html += '<p class="note">Справочная информация. Подбор и дозировку определяет только врач.</p>';
+    }
+    resultsEl.innerHTML = html;
+  }
+  function setMode(m) {
+    mode = m;
+    var btns = document.querySelectorAll('.seg button');
+    for (var i = 0; i < btns.length; i++) btns[i].setAttribute('aria-pressed', btns[i].getAttribute('data-mode') === m ? 'true' : 'false');
+    input.placeholder = m === 'doc' ? 'Например: кардиолог, Астана или фамилия' : 'Например: парацетамол или «кашель»';
+    renderChips();
+    runSearch();
+  }
+  document.querySelector('.seg').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (b) setMode(b.getAttribute('data-mode'));
+  });
+  $('#searchForm').addEventListener('submit', function (e) { e.preventDefault(); runSearch(); });
+  input.addEventListener('input', runSearch);
+  chipsEl.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-chip]');
+    if (!b) return;
+    input.value = b.getAttribute('data-chip');
+    runSearch();
+  });
+  // Кнопки «Найти врача» в карточках услуг
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-find]');
+    if (!b) return;
+    go('home');
+    setMode('doc');
+    input.value = b.getAttribute('data-find');
+    runSearch();
+    $('#search').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    input.focus({ preventScroll: true });
+  });
+  renderChips();
+
+  // =====================================================
+  //  АНКЕТА (демо: данные никуда не отправляются)
+  //  Чтобы отправлять на сервер, подключите fetch() в обработчике ниже.
+  // =====================================================
+  var calcForm = $('#calcForm');
+  calcForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!calcForm.checkValidity()) { calcForm.reportValidity(); return; }
+    $('#calcOk').hidden = false;
+    calcForm.reset();
+  });
+
+  // =====================================================
+  //  ЛИЧНЫЙ КАБИНЕТ (демо)
+  // =====================================================
+  var dlg = $('#dlg');
+  function openDlg() {
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+  }
+  function closeDlg() {
+    if (typeof dlg.close === 'function') dlg.close(); else dlg.removeAttribute('open');
+  }
+  $('#openLogin').addEventListener('click', openDlg);
+  dlg.addEventListener('click', function (e) {
+    if (e.target.closest('[data-close]') || e.target === dlg) closeDlg();
+  });
+  $('#loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var mail = $('#l-email').value.trim(), pass = $('#l-pass').value, err = $('#lErr');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)) { err.textContent = 'Введите адрес почты в формате name@example.com'; err.hidden = false; return; }
+    if (pass.length < 6) { err.textContent = 'Пароль должен содержать не менее 6 символов'; err.hidden = false; return; }
+    err.hidden = true;
+    var local = mail.split('@')[0];
+    $('#uName').textContent = local.charAt(0).toUpperCase() + local.slice(1);
+    $('#l-pass').value = '';
+    $('#loginView').hidden = true;
+    $('#accView').hidden = false;
+  });
+  $('#logoutBtn').addEventListener('click', function () {
+    $('#l-email').value = '';
+    $('#accView').hidden = true;
+    $('#loginView').hidden = false;
+  });
+
+  // =====================================================
+  //  СТРАНИЦЫ И МЕНЮ
+  // =====================================================
+  var pages = [
+    { id: 'home', t: 'Главная', d: 'Поиск врачей и лекарств', i: 'home' },
+    { id: 'services', t: 'Услуги', d: 'Более 25 000 услуг: УЗИ, кардиология, эндокринология и другие', i: 'cardio' },
+    { id: 'kids', t: 'Детям', d: 'Педиатр, офтальмолог, дерматолог и другие детские врачи', i: 'peds' },
+    { id: 'about', t: 'О компании', d: 'С 2009 года: миссия, ценности, стратегия, лицензии', i: 'info' },
+    { id: 'activity', t: 'Направления и центры', d: 'Больницы, медицинские центры, пункты и их адреса', i: 'hosp' },
+    { id: 'assist', t: 'Медицинский ассистанс', d: 'Программы для компаний и расчёт стоимости', i: 'shield' },
+    { id: 'partners', t: 'Партнёры', d: 'Банки и медицинские организации', i: 'bank' },
+    { id: 'contacts', t: 'Контакты', d: 'Адрес и телефон', i: 'phone' }
+  ];
+  function pageItem(p, cls, arrow) {
+    return '<a class="' + cls + '" href="#' + p.id + '" data-page="' + p.id + '"><span class="pt-ico">' + ic(p.i, 28) + '</span>' +
+      '<span class="pt-tx"><b>' + esc(p.t) + '</b><small>' + esc(p.d) + '</small></span>' + (arrow ? '<span class="pt-arr" aria-hidden="true">→</span>' : '') + '</a>';
+  }
+  $('#homeTiles').innerHTML = pages.filter(function (p) { return p.id !== 'home'; }).map(function (p) { return pageItem(p, 'ptile', true); }).join('');
+  $('#drawerList').innerHTML = pages.map(function (p) { return pageItem(p, 'dl-item', false); }).join('');
+
+  var drawer = $('#drawer'), menuBtn = $('#menuBtn'), mainEl = $('#main'), lastFocus = null, current = null;
+
+  function openDrawer() {
+    lastFocus = document.activeElement;
+    drawer.hidden = false;
+    menuBtn.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('lock');
+    $('#drawerClose').focus();
+  }
+  function closeDrawer() {
+    if (drawer.hidden) return;
+    drawer.hidden = true;
+    menuBtn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('lock');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  menuBtn.addEventListener('click', function () { if (drawer.hidden) openDrawer(); else closeDrawer(); });
+  $('#drawerClose').addEventListener('click', closeDrawer);
+  drawer.addEventListener('click', function (e) {
+    if (e.target.hasAttribute('data-dclose')) { closeDrawer(); return; }
+    var a = e.target.closest('[data-page]');
+    if (a) { e.preventDefault(); go(a.getAttribute('data-page')); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (drawer.hidden) return;
+    if (e.key === 'Escape') { closeDrawer(); return; }
+    if (e.key === 'Tab') {
+      var f = drawer.querySelectorAll('a[href],button');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  function normalize(id) {
+    if (!id || id === 'top') return 'home';
+    for (var i = 0; i < pages.length; i++) if (pages[i].id === id) return id;
+    return 'home';
+  }
+  function show(id, initial) {
+    id = normalize(id);
+    closeDrawer();
+    if (id === current) return;
+    current = id;
+    var secs = document.querySelectorAll('[data-view]');
+    for (var i = 0; i < secs.length; i++) secs[i].hidden = secs[i].getAttribute('data-view') !== id;
+    var page = pages.filter(function (p) { return p.id === id; })[0];
+    $('#crumbs').hidden = id === 'home';
+    $('#crumbCur').textContent = page.t;
+    document.title = id === 'home' ? 'DinaMed' : 'DinaMed: ' + page.t;
+    var links = document.querySelectorAll('nav a[href^="#"], .drawer-list a');
+    for (var k = 0; k < links.length; k++) {
+      var on = links[k].getAttribute('href') === '#' + id;
+      if (on) links[k].setAttribute('aria-current', 'page'); else links[k].removeAttribute('aria-current');
+    }
+    if (!initial) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      mainEl.focus({ preventScroll: true });
+    }
+  }
+  function go(id) {
+    id = normalize(id);
+    if (location.hash !== '#' + id) location.hash = id;
+    show(id);
+  }
+  window.addEventListener('hashchange', function () { show(location.hash.replace('#', '')); });
+  show(location.hash.replace('#', ''), true);
+})();
+</script>
+</body>
+</html>
